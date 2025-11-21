@@ -4,6 +4,11 @@
  * Returns a list of all active products with their categories
  */
 
+require_once 'cors_handler.php';
+
+// Handle CORS with specific configuration for products endpoint
+handleCors('GET, POST, OPTIONS', 'Content-Type, Authorization, X-Requested-With, Origin, Accept');
+
 require_once 'db_connect.php';
 
 try {
@@ -33,6 +38,8 @@ try {
         'message' => 'Products retrieved successfully',
         'data' => $products
     ]);
+    
+    exit();
     
 } catch (Exception $e) {
     // Return error response

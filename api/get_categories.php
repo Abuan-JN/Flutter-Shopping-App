@@ -4,6 +4,11 @@
  * Returns a list of all product categories
  */
 
+require_once 'cors_handler.php';
+
+// Handle CORS with specific configuration for categories endpoint
+handleCors('GET, POST, OPTIONS', 'Content-Type, Authorization, X-Requested-With, Origin, Accept');
+
 require_once 'db_connect.php';
 
 try {

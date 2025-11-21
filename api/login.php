@@ -2,10 +2,10 @@
 // Admin Login API Endpoint
 // Handles admin authentication requests
 
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type');
+require_once 'cors_handler.php';
+
+// Handle CORS with specific configuration for login endpoint
+handleCors('POST, OPTIONS', 'Content-Type, Authorization, X-Requested-With, Origin, Accept');
 
 require_once 'db_connect.php';
 

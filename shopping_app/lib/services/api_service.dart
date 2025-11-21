@@ -1,21 +1,24 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import '../config/api_config.dart';
+import '../config/cors_config.dart';
 import '../models/product.dart';
 import '../models/category.dart';
 import '../models/cart_item.dart';
 import '../models/order.dart';
+import '../utils/cors_helper.dart';
 
 class ApiService {
   final http.Client _client;
 
   ApiService({http.Client? client}) : _client = client ?? http.Client();
 
-  /// Headers for API requests
-  Map<String, String> get _headers => {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      };
+  /// Headers for API requests with CORS support
+  Map<String, String> get _headers => CorsConfig.getFullHeaders();
+  
+  /// Auth-specific headers
+  Map<String, String> get _authHeaders => CorsConfig.getFullHeaders(includeAuthHeaders: true);
 
   /// Generic method to handle API responses
   Future<Map<String, dynamic>> _handleResponse(http.Response response) async {
@@ -32,7 +35,8 @@ class ApiService {
     } on FormatException {
       throw Exception('Failed to parse API response');
     } on Exception catch (e) {
-      throw Exception('Network error: ${e.toString()}');
+      final errorMessage = CorsHelper.handleCorsError(e);
+      throw Exception(errorMessage);
     }
   }
 
@@ -78,12 +82,18 @@ class ApiService {
     }
   }
 
-  /// Admin login
+  /// Admin login with enhanced CORS support
   Future<Map<String, dynamic>> login(String username, String password) async {
     try {
+      CorsHelper.debugCorsIssue(ApiConfig.login, _authHeaders);
+      
+      if (!CorsHelper.validateCorsConfiguration(_authHeaders)) {
+        throw Exception('Invalid CORS configuration');
+      }
+      
       final response = await _client.post(
         Uri.parse(ApiConfig.login),
-        headers: _headers,
+        headers: _authHeaders,
         body: jsonEncode({
           'username': username,
           'password': password,

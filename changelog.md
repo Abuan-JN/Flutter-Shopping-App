@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.7] - 2025-11-21
+
+### Fixed
+- **CORS Violation Resolution (Batch 5.1)**
+  - **Server-Side CORS Enhancement**
+    - Created centralized CORS handler (`api/cors_handler.php`) with proper preflight request handling
+    - Enhanced authentication endpoint (`api/login.php`) with robust CORS support
+    - Updated product and category endpoints (`api/get_products.php`, `api/get_categories.php`) with consistent CORS configuration
+    - Added comprehensive CORS headers including `Access-Control-Allow-Credentials`, `Vary: Origin`, and proper preflight support
+    - Implemented 24-hour caching for preflight requests (`Access-Control-Max-Age: 86400`)
+    - Added origin validation for enhanced security
+  - **Client-Side CORS Enhancement**
+    - Created CORS configuration (`shopping_app/lib/config/cors_config.dart`) with centralized settings
+    - Enhanced API service (`shopping_app/lib/services/api_service.dart`) with proper headers and error handling
+    - Built dedicated CORS service (`shopping_app/lib/services/cors_service.dart`) with retry logic and timeout handling
+    - Added debugging utilities (`shopping_app/lib/utils/cors_helper.dart`) for troubleshooting CORS issues
+    - Implemented comprehensive error handling with detailed CORS-specific error messages
+    - Added retry logic (3 attempts with 1-second delays) for failed requests
+    - Enhanced authentication requests with required headers (`X-Requested-With`, proper `Origin`)
+  - **Security Improvements**
+    - Proper credential handling with `Access-Control-Allow-Credentials` header
+    - Origin validation to prevent unauthorized access
+    - CSRF protection through proper CORS configuration
+  - **Performance Enhancements**
+    - 30-second timeout handling for API requests
+    - Automatic retry mechanism for temporary network issues
+    - Comprehensive logging and debugging capabilities
+  - **Documentation**
+    - Created comprehensive CORS fix documentation (`README_CORS_FIX.md`)
+    - Included troubleshooting guide and testing procedures
+    - Provided security considerations and maintenance guidelines
+
+### Technical Details
+- Resolved cross-origin authentication blocking issues
+- Implemented proper preflight request handling for complex requests
+- Enhanced error recovery mechanisms for network failures
+- Standardized CORS configuration across all API endpoints
+- Added comprehensive debugging and monitoring capabilities
+
 ## [0.0.6] - 2025-11-21
 
 ### Added
