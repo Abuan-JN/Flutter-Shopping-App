@@ -2,6 +2,125 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.10] - 2025-11-21
+
+### Added
+- **Product Details & Navigation Feature (Batch 5.2)**
+  - Created `ProductDetailsScreen` in `lib/screens/product_details_screen.dart`
+    - Comprehensive product details page with large image display
+    - Product name, price, category, stock status, and detailed description
+    - Quantity selector with increment/decrement buttons for cart addition
+    - Professional UI design with price calculation for selected quantity
+    - Loading states and error handling during cart operations
+    - Navigation back to product list after successful cart addition
+    - Integration with existing cart functionality and API service
+  - Enhanced product card navigation in `CustomerProductListScreen`
+    - Added `onTap` gesture to navigate to product details
+    - Improved product card design with category display
+    - Maintained existing "Add to Cart" functionality
+    - Seamless navigation flow between list and details views
+    - Proper state management for navigation results
+
+- **Category Filtering Feature (Batch 5.3)**
+  - Implemented horizontal category filter chips in `CustomerProductListScreen`
+    - "All" category button plus individual category buttons from API
+    - FilterChip widgets with visual selection states
+    - Real-time product filtering based on category selection
+    - Smooth filtering animation and state transitions
+    - Integration with existing product loading and display logic
+    - Enhanced bottom navigation bar with category filter
+  - Enhanced API service with category management
+    - Added `getCategories()` method to `ApiService` class
+    - Proper error handling and JSON parsing for category data
+    - Integration with existing API endpoint configuration
+    - Type-safe Category model usage with proper imports
+  - Improved user experience with filtering
+    - Intuitive horizontal scrolling category selection
+    - Visual feedback for selected categories
+    - Automatic product list updates when filtering
+    - Maintained loading and error states during filtering
+
+### Features
+- Complete product browsing workflow (list → details → cart)
+- Professional product details page with quantity selection
+- Category-based product filtering with visual chips
+- Seamless navigation between screens
+- Enhanced cart functionality with quantity options
+- Improved product card design with category information
+- Real-time filtering and product list updates
+- Robust error handling and loading states
+
+### Technical Details
+- ProductDetailsScreen with comprehensive product information display
+- Category filter chips with horizontal scrolling
+- Enhanced API service with category endpoints
+- Quantity selector with increment/decrement buttons
+- Price calculation based on selected quantity
+- Navigation state management with result callbacks
+- FilterChip widgets with proper styling and selection states
+- Integration with existing authentication and state management
+
+### Next Steps
+- Proceed with Batch 6: Cart UI, Checkout Flow & Order History
+- Implement cart screen with item management
+- Create checkout process with order creation
+- Add order history viewing functionality
+- Enhance cart persistence and synchronization
+
+## [0.0.9] - 2025-11-21
+
+### Added
+- **Customer Product Listing Feature (Batch 5.1)**
+  - Created `CustomerProductListScreen` in `lib/screens/customer_product_list_screen.dart`
+    - Customer-facing product listing with grid view layout
+    - Implemented `GridView.builder` with 2-column layout for optimal product display
+    - Added `FutureBuilder`-style async data loading from API
+    - Professional card-based UI design with product images, names, prices, and stock status
+    - "Add to Cart" functionality with stock validation and user feedback
+    - Loading states and error handling with retry mechanisms
+    - Refresh functionality with pull-to-refresh gesture support
+    - Responsive design that works on all screen sizes
+    - Integration with existing API service for product data
+  - Enhanced `ApiService` class in `lib/services/api_service.dart`
+    - Added cart management methods: `addToCart`, `getCartItems`, `removeCartItem`
+    - Added order processing methods: `createOrder`, `getOrders`
+    - Implemented proper error handling and response parsing for all new methods
+    - Used consistent HTTP patterns with existing codebase
+    - Added proper JSON serialization and validation
+  - Updated app configuration in `lib/main.dart`
+    - Changed app title from "Shopping App Admin" to "Flutter Shopping App"
+    - Set initial route to customer product listing screen (`/products`)
+    - Added route configuration for new customer product listing screen
+    - Maintained existing admin routes for backward compatibility
+    - Preserved Provider pattern for state management
+
+### Features
+- Customer-facing product browsing interface
+- Grid-based product display with professional card design
+- Real-time product data fetching from backend API
+- Stock status indicators with color coding
+- Add to cart functionality with user feedback
+- Loading and error states with retry options
+- Responsive UI design for all device sizes
+- Integration with existing authentication system
+- Consistent theming and Material Design principles
+
+### Technical Details
+- GridView layout with 2-column responsive design
+- Card-based product display with image, name, price, and stock info
+- HTTP POST requests for cart operations
+- JSON serialization for API communication
+- Error handling with user-friendly messages
+- Resource disposal for API clients
+- Provider pattern integration for state management
+- Route-based navigation system
+
+### Next Steps
+- Proceed with Batch 5.2: Navigation & Details
+- Implement Product Details page with full product information
+- Add "Add to Cart" button with quantity selection
+- Create product filtering by category functionality
+
 ## [0.0.8] - 2025-11-21
 
 ### Fixed

@@ -67,13 +67,13 @@ This roadmap divides the requirements from the `README.md` into sequential batch
 ## **Batch 5: Customer Features (Storefront)**
 **Goal:** Build the browsing and shopping experience for users.
 
-- [ ] * **5.1 Product Listing**
+- [x] * **5.1 Product Listing**
     * Implement `GridView.builder` or `ListView.builder` to display products.
     * Use `FutureBuilder` to load data asynchronously from the API.
-- [ ] * **5.2 Navigation & Details**
+- [x] * **5.2 Navigation & Details**
     * Create a Product Details page showing the image, price, and description.
     * Implement a "Add to Cart" button on the details page.
-- [ ] * **5.3 Filtering**
+- [x] * **5.3 Filtering**
     * Implement category filtering using `DropdownButton` or filter chips.
 
 ---
