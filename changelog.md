@@ -2,12 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.2] - 2025-11-21
+
+### Changed
+- Updated all table names in `database_setup.sql` and API files to include "flutter2_" prefix for consistency
+- Tables renamed:
+  - `users` → `flutter2_users`
+  - `categories` → `flutter2_categories`
+  - `products` → `flutter2_products`
+  - `cart` → `flutter2_cart`
+  - `orders` → `flutter2_orders`
+  - `order_items` → `flutter2_order_items`
+- Updated all SQL queries in API endpoints (`add_category.php`, `add_product.php`, `delete_product.php`, `get_categories.php`, `get_products.php`, `update_product.php`) to reference the new table names
+- Updated foreign key constraints and relationships in database schema accordingly
+
 ## [0.0.1] - 2025-11-21
 
 ### Added
 - Initial project setup for Flutter Shopping App with PHP Backend
 - Database structure with SQL script (`database_setup.sql`)
-  - Created tables: `users`, `products`, `categories`, `cart`, `orders`, `order_items`
+  - Created tables: `flutter2_users`, `flutter2_products`, `flutter2_categories`, `flutter2_cart`, `flutter2_orders`, `flutter2_order_items`
   - Added sample data for testing
 - Backend API foundation
   - Database connection handler (`api/db_connect.php`)

@@ -8,13 +8,13 @@ require_once 'db_connect.php';
 
 try {
     // SQL query to get all categories
-    $sql = "SELECT 
+    $sql = "SELECT
                 id,
                 name,
                 description,
                 created_at,
                 updated_at
-            FROM categories
+            FROM flutter2_categories
             ORDER BY name ASC";
     
     $categories = fetchData($sql);

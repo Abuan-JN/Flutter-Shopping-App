@@ -38,7 +38,7 @@ try {
     $product_id = intval($data['id']);
     
     // Check if product exists
-    $product_check = fetchData("SELECT id FROM products WHERE id = ?", [$product_id]);
+    $product_check = fetchData("SELECT id FROM flutter2_products WHERE id = ?", [$product_id]);
     if (empty($product_check)) {
         http_response_code(404);
         echo json_encode([
@@ -83,7 +83,7 @@ try {
     }
     if ($category_id !== null) {
         // Check if category exists
-        $category_check = fetchData("SELECT id FROM categories WHERE id = ?", [$category_id]);
+        $category_check = fetchData("SELECT id FROM flutter2_categories WHERE id = ?", [$category_id]);
         if (empty($category_check)) {
             http_response_code(400);
             echo json_encode([
@@ -122,13 +122,13 @@ try {
     $params[] = $product_id;
     
     // Update product in database
-    $sql = "UPDATE products SET " . implode(', ', $update_fields) . ", updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+    $sql = "UPDATE flutter2_products SET " . implode(', ', $update_fields) . ", updated_at = CURRENT_TIMESTAMP WHERE id = ?";
     
     $affected_rows = modifyData($sql, $params);
     
     if ($affected_rows > 0) {
         // Get the updated product
-        $product = fetchData("SELECT 
+        $product = fetchData("SELECT
                                 p.id,
                                 p.name,
                                 p.description,
@@ -140,8 +140,8 @@ try {
                                 p.is_active,
                                 p.created_at,
                                 p.updated_at
-                            FROM products p
-                            LEFT JOIN categories c ON p.category_id = c.id
+                            FROM flutter2_products p
+                            LEFT JOIN flutter2_categories c ON p.category_id = c.id
                             WHERE p.id = ?", [$product_id]);
         
         // Return success response

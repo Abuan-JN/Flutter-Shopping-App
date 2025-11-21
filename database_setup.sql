@@ -5,8 +5,8 @@
 CREATE DATABASE IF NOT EXISTS shopping_app;
 USE shopping_app;
 
--- Table structure for table `users` (admin login)
-CREATE TABLE IF NOT EXISTS `users` (
+-- Table structure for table `flutter2_users` (admin login)
+CREATE TABLE IF NOT EXISTS `flutter2_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table structure for table `categories`
-CREATE TABLE IF NOT EXISTS `categories` (
+-- Table structure for table `flutter2_categories`
+CREATE TABLE IF NOT EXISTS `flutter2_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `description` text,
@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS `categories` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table structure for table `products`
-CREATE TABLE IF NOT EXISTS `products` (
+-- Table structure for table `flutter2_products`
+CREATE TABLE IF NOT EXISTS `flutter2_products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   `description` text,
@@ -42,11 +42,11 @@ CREATE TABLE IF NOT EXISTS `products` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
-  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
+  CONSTRAINT `flutter2_products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `flutter2_categories` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table structure for table `cart`
-CREATE TABLE IF NOT EXISTS `cart` (
+-- Table structure for table `flutter2_cart`
+CREATE TABLE IF NOT EXISTS `flutter2_cart` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `session_id` varchar(255) NOT NULL,
@@ -57,11 +57,11 @@ CREATE TABLE IF NOT EXISTS `cart` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_cart_item` (`session_id`,`product_id`),
   KEY `product_id` (`product_id`),
-  CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+  CONSTRAINT `flutter2_cart_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `flutter2_products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table structure for table `orders`
-CREATE TABLE IF NOT EXISTS `orders` (
+-- Table structure for table `flutter2_orders`
+CREATE TABLE IF NOT EXISTS `flutter2_orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `session_id` varchar(255) NOT NULL,
@@ -77,8 +77,8 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Table structure for table `order_items`
-CREATE TABLE IF NOT EXISTS `order_items` (
+-- Table structure for table `flutter2_order_items`
+CREATE TABLE IF NOT EXISTS `flutter2_order_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -88,21 +88,21 @@ CREATE TABLE IF NOT EXISTS `order_items` (
   PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`),
   KEY `product_id` (`product_id`),
-  CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
-  CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+  CONSTRAINT `flutter2_order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `flutter2_orders` (`id`),
+  CONSTRAINT `flutter2_order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `flutter2_products` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Insert some sample data for testing
-INSERT INTO `users` (`username`, `password`, `email`) VALUES
+INSERT INTO `flutter2_users` (`username`, `password`, `email`) VALUES
 ('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@example.com');
 
-INSERT INTO `categories` (`name`, `description`) VALUES
+INSERT INTO `flutter2_categories` (`name`, `description`) VALUES
 ('Electronics', 'Electronic devices and accessories'),
 ('Clothing', 'Apparel and fashion items'),
 ('Books', 'Books and educational materials'),
 ('Home & Garden', 'Home improvement and garden supplies');
 
-INSERT INTO `products` (`name`, `description`, `price`, `category_id`, `image_url', `stock_quantity`) VALUES
+INSERT INTO `flutter2_products` (`name`, `description`, `price`, `category_id`, `image_url', `stock_quantity`) VALUES
 ('Smartphone', 'Latest smartphone with advanced features', 699.99, 1, 'https://via.placeholder.com/300x300/000000/FFFFFF?text=Smartphone', 50),
 ('Laptop', 'Powerful laptop for work and entertainment', 1299.99, 1, 'https://via.placeholder.com/300x300/000000/FFFFFF?text=Laptop', 25),
 ('T-Shirt', 'Comfortable cotton t-shirt', 19.99, 2, 'https://via.placeholder.com/300x300/000000/FFFFFF?text=T-Shirt', 100),

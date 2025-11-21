@@ -46,7 +46,7 @@ try {
     }
     
     // Check if product exists
-    $product_check = fetchData("SELECT id, name FROM products WHERE id = ?", [$product_id]);
+    $product_check = fetchData("SELECT id, name FROM flutter2_products WHERE id = ?", [$product_id]);
     if (empty($product_check)) {
         http_response_code(404);
         echo json_encode([
@@ -59,10 +59,10 @@ try {
     $product_name = $product_check[0]['name'];
     
     // Check if product has any orders
-    $order_check = fetchData("SELECT COUNT(*) as order_count FROM order_items WHERE product_id = ?", [$product_id]);
+    $order_check = fetchData("SELECT COUNT(*) as order_count FROM flutter2_order_items WHERE product_id = ?", [$product_id]);
     if ($order_check[0]['order_count'] > 0) {
         // Instead of hard deleting, mark as inactive
-        $sql = "UPDATE products SET is_active = 0, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
+        $sql = "UPDATE flutter2_products SET is_active = 0, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
         $affected_rows = modifyData($sql, [$product_id]);
         
         if ($affected_rows > 0) {
@@ -79,7 +79,7 @@ try {
         }
     } else {
         // Safe to hard delete
-        $sql = "DELETE FROM products WHERE id = ?";
+        $sql = "DELETE FROM flutter2_products WHERE id = ?";
         $affected_rows = modifyData($sql, [$product_id]);
         
         if ($affected_rows > 0) {

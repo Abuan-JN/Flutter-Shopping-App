@@ -50,7 +50,7 @@ try {
     }
     
     // Check if category name already exists
-    $category_check = fetchData("SELECT id FROM categories WHERE name = ?", [$name]);
+    $category_check = fetchData("SELECT id FROM flutter2_categories WHERE name = ?", [$name]);
     if (!empty($category_check)) {
         http_response_code(409);
         echo json_encode([
@@ -61,7 +61,7 @@ try {
     }
     
     // Insert category into database
-    $sql = "INSERT INTO categories (name, description)
+    $sql = "INSERT INTO flutter2_categories (name, description)
             VALUES (?, ?)";
     
     $affected_rows = modifyData($sql, [
@@ -72,13 +72,13 @@ try {
     if ($affected_rows > 0) {
         // Get the newly created category
         $category_id = $pdo->lastInsertId();
-        $category = fetchData("SELECT 
+        $category = fetchData("SELECT
                                 id,
                                 name,
                                 description,
                                 created_at,
                                 updated_at
-                            FROM categories
+                            FROM flutter2_categories
                             WHERE id = ?", [$category_id]);
         
         // Return success response

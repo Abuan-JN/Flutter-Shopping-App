@@ -54,7 +54,7 @@ try {
     }
     
     // Check if category exists
-    $category_check = fetchData("SELECT id FROM categories WHERE id = ?", [$category_id]);
+    $category_check = fetchData("SELECT id FROM flutter2_categories WHERE id = ?", [$category_id]);
     if (empty($category_check)) {
         http_response_code(400);
         echo json_encode([
@@ -65,7 +65,7 @@ try {
     }
     
     // Insert product into database
-    $sql = "INSERT INTO products (name, description, price, category_id, image_url, stock_quantity)
+    $sql = "INSERT INTO flutter2_products (name, description, price, category_id, image_url, stock_quantity)
             VALUES (?, ?, ?, ?, ?, ?)";
     
     $affected_rows = modifyData($sql, [
@@ -80,7 +80,7 @@ try {
     if ($affected_rows > 0) {
         // Get the newly created product
         $product_id = $pdo->lastInsertId();
-        $product = fetchData("SELECT 
+        $product = fetchData("SELECT
                                 p.id,
                                 p.name,
                                 p.description,
@@ -92,8 +92,8 @@ try {
                                 p.is_active,
                                 p.created_at,
                                 p.updated_at
-                            FROM products p
-                            LEFT JOIN categories c ON p.category_id = c.id
+                            FROM flutter2_products p
+                            LEFT JOIN flutter2_categories c ON p.category_id = c.id
                             WHERE p.id = ?", [$product_id]);
         
         // Return success response

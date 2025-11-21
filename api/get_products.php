@@ -8,7 +8,7 @@ require_once 'db_connect.php';
 
 try {
     // SQL query to get products with category information
-    $sql = "SELECT 
+    $sql = "SELECT
                 p.id,
                 p.name,
                 p.description,
@@ -20,8 +20,8 @@ try {
                 p.is_active,
                 p.created_at,
                 p.updated_at
-            FROM products p
-            LEFT JOIN categories c ON p.category_id = c.id
+            FROM flutter2_products p
+            LEFT JOIN flutter2_categories c ON p.category_id = c.id
             WHERE p.is_active = 1
             ORDER BY p.created_at DESC";
     
