@@ -2,10 +2,47 @@
 // Admin Login API Endpoint
 // Handles admin authentication requests
 
-require_once 'cors_handler.php';
+// Handle preflight OPTIONS requests immediately
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // Clear any existing headers to prevent duplication
+    if (function_exists('header_remove')) {
+        header_remove('Access-Control-Allow-Origin');
+        header_remove('Access-Control-Allow-Methods');
+        header_remove('Access-Control-Allow-Headers');
+        header_remove('Access-Control-Max-Age');
+        header_remove('Access-Control-Allow-Credentials');
+        header_remove('Vary');
+    }
+    
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Origin, Accept, Cache-Control, Pragma');
+    header('Access-Control-Max-Age: 86400');
+    header('Access-Control-Allow-Credentials: true');
+    header('Vary: Origin');
+    header('Content-Type: application/json');
+    http_response_code(200);
+    exit();
+}
 
-// Handle CORS with specific configuration for login endpoint
-handleCors('POST, OPTIONS', 'Content-Type, Authorization, X-Requested-With, Origin, Accept');
+// Clear any existing CORS headers to prevent duplication with .htaccess
+if (function_exists('header_remove')) {
+    header_remove('Access-Control-Allow-Origin');
+    header_remove('Access-Control-Allow-Methods');
+    header_remove('Access-Control-Allow-Headers');
+    header_remove('Access-Control-Max-Age');
+    header_remove('Access-Control-Allow-Credentials');
+    header_remove('Vary');
+}
+
+// Set CORS headers for actual requests (only if not set by .htaccess)
+header('Access-Control-Allow-Origin: *', false);
+header('Access-Control-Allow-Methods: POST, OPTIONS', false);
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Origin, Accept, Cache-Control, Pragma', false);
+header('Access-Control-Max-Age: 86400', false);
+header('Access-Control-Allow-Credentials: true', false);
+header('Vary: Origin', false);
+header('Content-Type: application/json');
 
 require_once 'db_connect.php';
 

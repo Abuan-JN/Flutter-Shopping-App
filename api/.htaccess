@@ -1,0 +1,70 @@
+# CORS Configuration for API endpoints
+# This file handles Cross-Origin Resource Sharing for the Flutter Shopping App
+
+# Enable CORS for all API endpoints
+<IfModule mod_headers.c>
+    # Remove any existing CORS headers to prevent duplication
+    Header unset Access-Control-Allow-Origin
+    Header unset Access-Control-Allow-Headers
+    Header unset Access-Control-Allow-Methods
+    Header unset Access-Control-Allow-Credentials
+    Header unset Access-Control-Max-Age
+    Header unset Vary
+    
+    # Allow requests from any origin (adjust as needed for security)
+    Header always set Access-Control-Allow-Origin "*"
+    
+    # Allow specific headers including Cache-Control
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Origin, Accept, Cache-Control, Pragma"
+    
+    # Allow specific methods
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    
+    # Allow credentials (cookies, authorization headers)
+    Header always set Access-Control-Allow-Credentials "true"
+    
+    # Cache preflight responses for 24 hours
+    Header always set Access-Control-Max-Age "86400"
+    
+    # Vary response based on Origin header for proper caching
+    Header always set Vary "Origin"
+</IfModule>
+
+# Handle OPTIONS preflight requests
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Handle preflight requests for all API endpoints
+    RewriteCond %{REQUEST_METHOD} ^OPTIONS$
+    RewriteRule ^api/.*$ - [R=200,L]
+    
+    # Ensure proper content type for OPTIONS responses
+    RewriteCond %{REQUEST_METHOD} ^OPTIONS$
+    RewriteRule ^api/.*$ - [T=application/json]
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    # Prevent MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Prevent clickjacking
+    Header set X-Frame-Options "DENY"
+    
+    # XSS protection
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Cache control for API responses
+<IfModule mod_headers.c>
+    # Disable caching for API responses to ensure fresh data
+    <FilesMatch "\.php$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+</IfModule>
+
+# Error handling for CORS issues
+ErrorDocument 403 /api/error-cors.html
+ErrorDocument 500 /api/error-cors.html

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Error - Flutter Shopping App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #e74c3c;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .error-details {
+            background-color: #fff5f5;
+            border: 1px solid #fecaca;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .solution {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        code {
+            background-color: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .btn {
+            background-color: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+        }
+        .btn:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 CORS Configuration Error</h1>
+        
+        <div class="error-details">
+            <h2>Error Details:</h2>
+            <p><strong>CORS Policy Violation:</strong> Cross-Origin Resource Sharing configuration issue detected.</p>
+            <p><strong>Server:</strong> <code>http://abuanplmunflutter.sportsontheweb.net</code></p>
+            <p><strong>Issue:</strong> Preflight OPTIONS request not properly handled</p>
+        </div>
+
+        <div class="solution">
+            <h2>🔧 Solution Steps:</h2>
+            <ol>
+                <li><strong>Verify .htaccess file:</strong> Ensure the <code>.htaccess</code> file exists in the <code>api/</code> directory</li>
+                <li><strong>Check server configuration:</strong> Ensure Apache mod_headers and mod_rewrite are enabled</li>
+                <li><strong>Verify file permissions:</strong> Ensure the .htaccess file is readable by the web server</li>
+                <li><strong>Test OPTIONS request:</strong> Use browser developer tools to check if OPTIONS requests return HTTP 200</li>
+                <li><strong>Contact hosting provider:</strong> If issues persist, contact AwardSpace support to enable CORS headers</li>
+            </ol>
+        </div>
+
+        <div class="error-details">
+            <h2>📋 Technical Information:</h2>
+            <p><strong>Required Headers:</strong></p>
+            <ul>
+                <li><code>Access-Control-Allow-Origin: *</code></li>
+                <li><code>Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS</code></li>
+                <li><code>Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Origin, Accept</code></li>
+                <li><code>Access-Control-Allow-Credentials: true</code></li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="javascript:history.back()" class="btn">Go Back</a>
+            <a href="/api/" class="btn">API Home</a>
+        </div>
+    </div>
+</body>
+</html>

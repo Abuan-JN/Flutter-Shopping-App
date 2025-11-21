@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.8] - 2025-11-21
+
+### Fixed
+- **Complete CORS Resolution with .htaccess Configuration (Batch 5.2)**
+  - **Server-Level CORS Configuration**
+    - Created `.htaccess` file with comprehensive Apache-level CORS configuration
+    - Implemented proper header management to prevent duplication issues
+    - Added support for caching headers (`Cache-Control`, `Pragma`) in CORS allowed headers
+    - Configured OPTIONS preflight handling at server level using mod_rewrite
+    - Added security headers and cache control for API responses
+    - Created custom error pages for CORS-related issues (`api/error-cors.html`)
+  - **Advanced Preflight Request Handling**
+    - Fixed duplicate `Access-Control-Allow-Origin` headers issue
+    - Enhanced OPTIONS request processing with proper header cleanup
+    - Implemented header deduplication using `header_remove()` function
+    - Added comprehensive header validation and debugging
+  - **CORS Header Expansion**
+    - Extended allowed headers to include caching directives
+    - Added support for all Flutter-generated request headers
+    - Implemented complete header coverage for cross-origin requests
+    - Enhanced header validation and error reporting
+  - **Debugging and Testing Tools**
+    - Created `api/cors_test.php` endpoint for comprehensive CORS testing
+    - Added detailed request/response header analysis
+    - Implemented real-time CORS configuration verification
+    - Built user-friendly error pages with troubleshooting guides
+  - **Integration Enhancements**
+    - Synchronized server-level (.htaccess) and application-level (PHP) CORS configuration
+    - Implemented proper header precedence and conflict resolution
+    - Added graceful fallback mechanisms for missing server features
+    - Enhanced compatibility with AwardSpace hosting environment
+
+### Technical Details
+- Resolved all CORS header duplication issues
+- Implemented server-level preflight request handling
+- Added comprehensive caching header support
+- Created advanced debugging and testing tools
+- Enhanced server-client CORS integration
+- Improved hosting environment compatibility
+
 ## [0.0.7] - 2025-11-21
 
 ### Fixed
