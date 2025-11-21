@@ -7,13 +7,13 @@ This roadmap divides the requirements from the `README.md` into sequential batch
 ## **Batch 1: Database & Backend Foundation**
 **Goal:** Set up the hosting environment and create the core data structure.
 
-- [ ] * **1.1 Database Setup (MySQL)**
+- [x] * **1.1 Database Setup (MySQL)**
     * Log in to your AwardSpace hosting panel: `http://abuanplmunflutter.sportsontheweb.net`.
     * Create a MySQL database.
     * Execute SQL scripts to create the required tables: `users`, `products`, `categories`, `cart`, `orders`, and `order_items`.
-- [ ] * **1.2 Database Connection**
+- [x] * **1.2 Database Connection**
     * Create a `db_connect.php` file to handle database credentials and connection logic.
-- [ ] * **1.3 Core Data APIs (CRUD)**
+- [x] * **1.3 Core Data APIs (CRUD)**
     * Create "Read" endpoints: `/api/get_products.php` and `/api/get_categories.php`.
     * Create "Write" endpoints for product management: `/api/add_product.php`, `/api/update_product.php`, and `/api/delete_product.php`.
     * Create category management endpoint: `/api/add_category.php`.
