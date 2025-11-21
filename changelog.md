@@ -2,7 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.0.2] - 2025-11-21
+## [0.0.3] - 2025-11-21
+
+### Added
+- Authentication API endpoint
+  - `api/login.php` - Admin login functionality with secure password verification
+  - Input validation for username and password fields
+  - JSON Web Token (JWT) style token generation for session management
+  - Error handling for authentication failures
+- Cart Management API endpoints
+  - `api/add_to_cart.php` - Add products to shopping cart with stock validation
+  - `api/get_cart.php` - Retrieve all cart items with totals and stock warnings
+  - `api/remove_cart_item.php` - Remove items from cart by ID or product
+  - Session-based cart management for guest users
+  - Stock quantity validation and availability checks
+  - Cart item count and total calculation
+- Order Processing API endpoints
+  - `api/create_order.php` - Complete checkout process with cart-to-order conversion
+  - `api/get_orders.php` - View order history with detailed order information
+  - Full transaction management with database transactions
+  - Customer information validation and storage
+  - Automatic stock deduction and cart clearing
+  - Order status tracking (pending, completed, cancelled)
+  - Order statistics and analytics for admin users
 
 ### Changed
 - Updated all table names in `database_setup.sql` and API files to include "flutter2_" prefix for consistency

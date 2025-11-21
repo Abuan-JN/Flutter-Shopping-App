@@ -25,11 +25,11 @@ This roadmap divides the requirements from the `README.md` into sequential batch
 ## **Batch 2: Advanced Backend Logic**
 **Goal:** Handle authentication and transactional logic on the server side.
 
-- [ ] * **2.1 Authentication API**
+- [x] * **2.1 Authentication API**
     * Create `/api/login.php` to handle Admin login requests.
-- [ ] * **2.2 Cart Management APIs**
+- [x] * **2.2 Cart Management APIs**
     * Create endpoints to manage the shopping cart: `/api/add_to_cart.php`, `/api/get_cart.php`, and `/api/remove_cart_item.php`.
-- [ ] * **2.3 Order Processing APIs**
+- [x] * **2.3 Order Processing APIs**
     * Create `/api/create_order.php` to finalize transactions.
     * Create `/api/get_orders.php` to view order history.
 
