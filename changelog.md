@@ -2,6 +2,164 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.12] - 2025-11-21
+
+### Added
+- **Complete Order History System (Batch 6.3)**
+  - Created comprehensive `OrderHistoryScreen` in `lib/screens/order_history_screen.dart`
+    - Dual-mode interface for both customers and admins (isAdminView parameter)
+    - Customer view: Shows only user's orders with status filters
+    - Admin view: Shows all orders with date filtering and status management
+    - Order filtering by status (All, Pending, Processing, Completed, Cancelled)
+    - Date filtering for admin view to view orders by specific dates
+    - Order status indicators with color coding and icons
+    - Order details dialog with complete order information
+    - Product preview in order cards with images and quantities
+    - Admin-only order status update functionality
+    - Real-time order data fetching from backend API
+    - Professional card-based UI design with responsive layout
+  - Enhanced navigation system
+    - Added Order History navigation to CustomerProductListScreen (receipt icon)
+    - Added Order History navigation to ProductDetailsScreen (receipt icon)
+    - Updated AdminDashboardScreen to use new OrderHistoryScreen
+    - Added proper route configuration in main.dart for both customer and admin views
+    - Seamless navigation flow between all screens
+  - Improved order management
+    - Order status color coding (Pending: Orange, Completed: Green, Cancelled: Red, Processing: Blue)
+    - Order summary with customer information (admin view only)
+    - Product quantity and pricing display in order items
+    - Order date formatting and display
+    - Professional dialog design for order details
+
+- **Comprehensive UI Enhancements & Form Validation (Batch 6.4)**
+  - Created `UIHelpers` utility class in `lib/utils/ui_helpers.dart`
+    - Comprehensive form validation functions (email, phone, name, address, price, stock)
+    - Philippine-specific phone number formatting and validation
+    - Currency formatting for Philippine Peso (₱)
+    - Professional snackbar system with different colors for success, error, info, warning
+    - Loading dialog management with proper context handling
+    - Confirmation dialog with custom styling
+    - Success dialog with order confirmation display
+    - Shimmer effect widget for loading states
+    - Retry widget for error states with customizable messages
+    - Empty state widget with icons and action buttons
+    - Enhanced error handling with specific error types
+  - Enhanced `FormValidator` utility class in `lib/utils/form_validator.dart`
+    - Comprehensive form validation for all app inputs
+    - Email format validation with regex patterns
+    - Phone number validation for Philippine numbers
+    - Name validation with character restrictions
+    - Address validation with minimum length requirements
+    - Price and stock validation for numeric inputs
+    - Product and category validation for admin forms
+    - Image URL validation for product images
+    - Integration with intl package for currency formatting
+  - Added intl dependency for internationalization support
+    - Currency formatting for Philippine Peso
+    - Date and number formatting capabilities
+    - Enhanced user experience with localized formatting
+  - Improved error handling throughout the application
+    - Consistent error message formatting
+    - User-friendly validation messages
+    - Professional loading states and animations
+    - Enhanced retry mechanisms for failed operations
+    - Better user feedback for all interactions
+
+### Features
+- Complete order history management for customers and admins
+- Professional order status tracking and management
+- Advanced form validation with real-time feedback
+- Enhanced user interface with consistent theming
+- Professional loading states and error handling
+- Currency and phone number formatting
+- Comprehensive validation for all user inputs
+- Order filtering and search functionality
+- Professional dialog and notification system
+- Enhanced user experience with polished interactions
+
+### Technical Details
+- OrderHistoryScreen with dual-mode customer/admin interface
+- Comprehensive form validation utility classes
+- Enhanced UI helpers for consistent user experience
+- Professional dialog and notification system
+- Currency formatting with Philippine Peso support
+- Phone number validation and formatting for Philippine numbers
+- Order status management with color coding
+- Enhanced error handling and user feedback
+- Route-based navigation system
+- Provider pattern integration for state management
+- Material Design implementation with consistent theming
+
+### Project Completion Summary
+- ✅ **Batch 1-6 Complete**: All project requirements successfully implemented
+- ✅ **Backend API**: Complete PHP + MySQL backend with all required endpoints
+- ✅ **Flutter App**: Full-featured mobile application with admin and customer interfaces
+- ✅ **Authentication**: Admin login system with secure authentication
+- ✅ **Product Management**: Full CRUD operations for products and categories
+- ✅ **Customer Features**: Product browsing, details, cart management, and checkout
+- ✅ **Order Management**: Complete order history and status tracking
+- ✅ **Enhanced UX**: Professional UI/UX with form validation, loading states, and error handling
+- ✅ **Documentation**: Comprehensive changelog and project documentation
+
+## [0.0.11] - 2025-11-21
+
+### Added
+- **Complete Cart Management System (Batch 6.1 & 6.2)**
+  - Created comprehensive `CartScreen` in `lib/screens/cart_screen.dart`
+    - Full cart management interface with item listing, quantity controls, and removal functionality
+    - Real-time cart updates with quantity increment/decrement buttons
+    - Stock validation to prevent ordering more than available items
+    - Professional card-based UI design with product images, names, prices, and stock status
+    - Loading states and error handling with retry mechanisms
+    - Price calculation with subtotal, tax, and total display
+    - Integration with existing cart API endpoints
+    - Seamless navigation to checkout process
+  - Created complete `CheckoutScreen` in `lib/screens/checkout_screen.dart`
+    - Professional checkout form with customer information collection
+    - Form validation for name, address, and phone number fields
+    - Payment method selection with dropdown (Cash on Delivery, GCash, Bank Transfer)
+    - Order summary display with cart items and price breakdown
+    - Order placement functionality calling `/api/create_order.php`
+    - Success dialog with order confirmation and summary
+    - Navigation flow back to product list after successful order
+    - Integration with existing order creation API
+  - Enhanced navigation system
+    - Updated `CustomerProductListScreen` to navigate to cart when cart icon is tapped
+    - Updated `ProductDetailsScreen` to navigate to cart when cart icon is tapped
+    - Added cart and checkout routes to `main.dart`
+    - Proper route configuration for new screens
+  - Improved cart functionality
+    - Real-time cart updates after adding/removing items
+    - Quantity validation based on stock availability
+    - Professional UI design with Material Design principles
+    - Responsive design that works on all screen sizes
+    - Error handling and user feedback for all operations
+
+### Features
+- Complete cart management with add, update, and remove functionality
+- Professional checkout flow with form validation
+- Order placement with customer information and payment method
+- Real-time cart updates and stock validation
+- Professional UI design with consistent theming
+- Comprehensive error handling and user feedback
+- Seamless navigation between cart and checkout
+- Order confirmation with summary display
+
+### Technical Details
+- CartScreen with comprehensive cart management interface
+- CheckoutScreen with form validation and order placement
+- Integration with existing cart and order API endpoints
+- Real-time quantity controls with stock validation
+- Professional card-based UI design
+- Form validation with regex patterns for phone numbers
+- Price calculation with tax (12%) integration
+- Success dialogs and error handling
+- Route-based navigation system
+- Provider pattern integration for state management
+
+### Next Steps
+- Project completed! All batches implemented successfully
+
 ## [0.0.10] - 2025-11-21
 
 ### Added

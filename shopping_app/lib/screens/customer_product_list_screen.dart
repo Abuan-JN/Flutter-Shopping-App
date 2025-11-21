@@ -134,12 +134,16 @@ class _CustomerProductListScreenState extends State<CustomerProductListScreen> {
         title: const Text('Products'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.receipt_long),
+            onPressed: () {
+              Navigator.pushNamed(context, '/orders');
+            },
+            tooltip: 'Order History',
+          ),
+          IconButton(
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
-              // Navigate to cart screen (to be implemented in Batch 6)
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Cart feature coming soon!')),
-              );
+              Navigator.pushNamed(context, '/cart');
             },
             tooltip: 'View Cart',
           ),

@@ -81,14 +81,18 @@ This roadmap divides the requirements from the `README.md` into sequential batch
 ## **Batch 6: Cart, Checkout & Polish**
 **Goal:** Finalize the transaction loop and enhance the user experience.
 
-- [ ] * **6.1 Cart UI**
+- [x] * **6.1 Cart UI**
     * Create a screen to view cart items and remove them using the API.
-- [ ] * **6.2 Checkout Flow**
+- [x] * **6.2 Checkout Flow**
     * Implement a submit button that calls `/api/create_order.php`.
-- [ ] * **6.3 Order History**
+- [x] * **6.3 Order History**
     * Create a view to display past orders for customers and all orders for admins.
-- [ ] * **6.4 Enhancements**
+- [x] * **6.4 Enhancements**
     * Add input validation, loading states, and error handling.
-    * (Optional) Implement persistent cart storage using SQLite + API sync.
+    * Created comprehensive form validation utilities
+    * Implemented enhanced UI helpers for consistent user experience
+    * Added professional loading states, error handling, and notifications
+    * Implemented currency and phone number formatting
+    * Enhanced overall app usability and user experience
 
 ---

@@ -2,19 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import 'product_list_screen.dart';
+import 'order_history_screen.dart';
 
-// Placeholder for order list screen
-class OrderListScreen extends StatelessWidget {
-  const OrderListScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Orders')),
-      body: const Center(child: Text('Order management coming soon!')),
-    );
-  }
-}
 
 class AdminDashboardScreen extends StatelessWidget {
   const AdminDashboardScreen({super.key});
@@ -104,10 +93,7 @@ class AdminDashboardScreen extends StatelessWidget {
                   subtitle: 'View and manage orders',
                   color: Colors.orange,
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const OrderListScreen()),
-                    );
+                    Navigator.pushNamed(context, '/admin/orders');
                   },
                 ),
                 _buildDashboardCard(
