@@ -17,7 +17,7 @@ This roadmap divides the requirements from the `README.md` into sequential batch
     * Create "Read" endpoints: `/api/get_products.php` and `/api/get_categories.php`.
     * Create "Write" endpoints for product management: `/api/add_product.php`, `/api/update_product.php`, and `/api/delete_product.php`.
     * Create category management endpoint: `/api/add_category.php`.
-- [ ] * **1.4 Testing**
+- [x] * **1.4 Testing**
     * Verify endpoints in the browser (e.g., visit `.../api/get_products.php`) to ensure they return valid JSON.
 
 ---
