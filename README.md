@@ -197,6 +197,3 @@ Include the following improvements to make it full-scale:
 * Ensure CORS compatibility if necessary.
 
 ---
-
-✅ Ready-made Flutter boilerplate code
-Just tell me what you want next.
