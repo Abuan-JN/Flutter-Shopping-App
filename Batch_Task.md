@@ -54,12 +54,12 @@ This roadmap divides the requirements from the `README.md` into sequential batch
 ## **Batch 4: Admin Features (Flutter Side)**
 **Goal:** Build the mobile interface for store management.
 
-- [ ] * **4.1 Admin Login**
+- [x] * **4.1 Admin Login**
     * Create a login screen using `TextFormField` that calls the login API.
-- [ ] * **4.2 Product Management UI**
+- [x] * **4.2 Product Management UI**
     * Build "Admin-only views" for Adding, Updating, and Deleting products.
     * Implement forms to input product details (Name, Description, Price, Image).
-- [ ] * **4.3 Category Management**
+- [x] * **4.3 Category Management**
     * Create a UI to list current categories and add new ones.
 
 ---
