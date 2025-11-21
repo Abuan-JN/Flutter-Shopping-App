@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.4] - 2025-11-21
+
+### Added
+- Flutter Project Initialization (Batch 3.1)
+  - Created new Flutter project using `flutter create shopping_app`
+  - Added required dependencies to pubspec.yaml:
+    - `http: ^1.0.0` for API communication
+    - `provider: ^6.0.0` for optional state management
+  - Successfully installed dependencies with `flutter pub get`
+  - Project structure created with 130 files including main.dart entry point
+  - Ready for API configuration and data model implementation
+- Configuration Setup (Batch 3.2)
+  - Created `ApiConfig` class in `lib/config/api_config.dart`
+  - Implemented static base URL: `http://abuanplmunflutter.sportsontheweb.net/api/`
+  - Added all API endpoint constants for easy reference
+  - Organized endpoints by functionality (products, categories, auth, cart, orders)
+  - Ready for data model implementation and API service creation
+- Data Models Implementation (Batch 3.3)
+  - Created `Product` model in `lib/models/product.dart`
+    - Includes all product fields: id, name, description, price, category_id, image, stock, is_active, created_at
+    - Implemented fromJson and toJson methods for JSON serialization
+    - Added computed properties and proper toString method
+  - Created `Category` model in `lib/models/category.dart`
+    - Includes category fields: id, name, description, is_active, created_at
+    - Implemented proper JSON serialization methods
+  - Created `CartItem` model in `lib/models/cart_item.dart`
+    - Includes cart-specific fields plus product display data
+    - Added totalPrice computed property for easy calculations
+    - Supports cart functionality with quantity management
+  - Created `Order` and `OrderItem` models in `lib/models/order.dart`
+    - Order model includes customer information and order status
+    - OrderItem model handles individual items within orders
+    - Supports complex order structure with nested items
+    - Ready for API service integration and state management
+- API Service Implementation (Batch 3.4)
+  - Created comprehensive `ApiService` class in `lib/services/api_service.dart`
+  - Implemented all CRUD operations for products and categories (admin functions)
+  - Added cart management functions: addToCart, getCartItems, removeCartItem
+  - Implemented order processing: createOrder, getOrders
+  - Added authentication function: login
+  - Included proper error handling and response parsing
+  - Used proper HTTP methods (GET/POST) with JSON serialization
+  - Implemented security headers and request validation
+  - Added client disposal method for resource management
+  - Ready for Flutter UI implementation and state management integration
+
 ## [0.0.3] - 2025-11-21
 
 ### Added

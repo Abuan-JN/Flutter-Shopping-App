@@ -38,14 +38,14 @@ This roadmap divides the requirements from the `README.md` into sequential batch
 ## **Batch 3: Flutter Project Setup & Data Layer**
 **Goal:** Initialize the mobile app and establish communication with the server.
 
-- [ ] * **3.1 Project Initialization**
+- [x] * **3.1 Project Initialization**
     * Run `flutter create shopping_app`.
     * Add dependencies to `pubspec.yaml`: `http` (required) and `provider` (optional).
-- [ ] * **3.2 Configuration**
+- [x] * **3.2 Configuration**
     * Create a file to store the `ApiConfig` class with the static base URL: `http://abuanplmunflutter.sportsontheweb.net/api/`.
-- [ ] * **3.3 Data Models**
+- [x] * **3.3 Data Models**
     * Create Dart classes to parse JSON responses into objects (e.g., `Product`, `Category`, `CartItem`, `Order`).
-- [ ] * **3.4 API Service**
+- [x] * **3.4 API Service**
     * Create a service class to handle HTTP GET/POST requests using `Uri.parse("${ApiConfig.baseUrl}...")`.
     * Implement functions to parse JSON and handle server errors.
 
