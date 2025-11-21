@@ -102,7 +102,7 @@ INSERT INTO `flutter2_categories` (`name`, `description`) VALUES
 ('Books', 'Books and educational materials'),
 ('Home & Garden', 'Home improvement and garden supplies');
 
-INSERT INTO `flutter2_products` (`name`, `description`, `price`, `category_id`, `image_url', `stock_quantity`) VALUES
+INSERT INTO `flutter2_products` (`name`, `description`, `price`, `category_id`, `image_url`, `stock_quantity`) VALUES
 ('Smartphone', 'Latest smartphone with advanced features', 699.99, 1, 'https://via.placeholder.com/300x300/000000/FFFFFF?text=Smartphone', 50),
 ('Laptop', 'Powerful laptop for work and entertainment', 1299.99, 1, 'https://via.placeholder.com/300x300/000000/FFFFFF?text=Laptop', 25),
 ('T-Shirt', 'Comfortable cotton t-shirt', 19.99, 2, 'https://via.placeholder.com/300x300/000000/FFFFFF?text=T-Shirt', 100),
