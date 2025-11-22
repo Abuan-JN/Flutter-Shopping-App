@@ -83,10 +83,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   labelText: 'Email Address',
                   prefixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(),
+                  hintText: 'Enter your email address',
                 ),
                 validator: FormValidator.validateEmail,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
               ),
               const SizedBox(height: 20),
               TextFormField(
@@ -100,9 +102,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Please enter your password';
-                  }
-                  if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
                   }
                   return null;
                 },
@@ -129,6 +128,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     authProvider.errorMessage!,
                     style: const TextStyle(color: Colors.red, fontSize: 14),
+                  ),
+                ),
+              if (authProvider.isLoading)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                      SizedBox(width: 10),
+                      Text('Logging in...', style: TextStyle(fontSize: 14)),
+                    ],
                   ),
                 ),
               SizedBox(

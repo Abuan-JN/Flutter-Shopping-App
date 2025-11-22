@@ -60,24 +60,24 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $input = json_decode(file_get_contents('php://input'), true);
 
 // Validate input
-if (!isset($input['username']) || !isset($input['password'])) {
+if (!isset($input['email']) || !isset($input['password'])) {
     http_response_code(400);
     echo json_encode([
         'success' => false,
-        'message' => 'Username and password are required.'
+        'message' => 'Email and password are required.'
     ]);
     exit;
 }
 
-$username = trim($input['username']);
+$email = trim($input['email']);
 $password = $input['password'];
 
-// Validate input length
-if (strlen($username) < 3 || strlen($username) > 50) {
+// Validate email format
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     http_response_code(400);
     echo json_encode([
         'success' => false,
-        'message' => 'Username must be between 3 and 50 characters.'
+        'message' => 'Please enter a valid email address.'
     ]);
     exit;
 }
@@ -93,8 +93,8 @@ if (strlen($password) < 1) {
 
 try {
     // Prepare SQL statement to fetch user
-    $stmt = $pdo->prepare("SELECT id, username, password, email, created_at FROM flutter2_users WHERE username = ?");
-    $stmt->execute([$username]);
+    $stmt = $pdo->prepare("SELECT id, name, email, phone, address, password, role, created_at FROM flutter2_users WHERE email = ?");
+    $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
     // Check if user exists
@@ -102,7 +102,7 @@ try {
         http_response_code(401);
         echo json_encode([
             'success' => false,
-            'message' => 'Invalid username or password.'
+            'message' => 'Invalid email or password.'
         ]);
         exit;
     }

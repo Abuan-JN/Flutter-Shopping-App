@@ -60,16 +60,23 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      // TODO: Replace with actual registration API
-      await Future.delayed(const Duration(seconds: 2)); // Simulate API call
+      final result = await _apiService.register(
+        name: name,
+        email: email,
+        phone: phone,
+        address: address,
+        password: password,
+      );
+      
+      if (result['success'] == true) {
+        _errorMessage = null;
+      } else {
+        _errorMessage = result['message'] ?? 'Registration failed';
+      }
       
       _isLoading = false;
       notifyListeners();
-      
-      return {
-        'success': true,
-        'message': 'Registration successful',
-      };
+      return result;
     } catch (e) {
       _isLoading = false;
       _errorMessage = e.toString();

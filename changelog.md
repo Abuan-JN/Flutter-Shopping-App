@@ -163,6 +163,73 @@ This is a **BREAKING CHANGE** release that completely transforms the application
 - ✅ Eliminated UI overflow issues in order filtering section
 - ✅ Improved app stability and user experience
 
+### API Alignment & Authentication Improvements
+
+**Fixed API Endpoint Alignment**:
+- ✅ **Login API**: Updated `api/login.php` to accept email instead of username for customer authentication
+- ✅ **Registration API**: Created `api/register.php` with comprehensive validation and customer onboarding
+- ✅ **Data Model Consistency**: Aligned Flutter data models with API response formats
+- ✅ **Error Handling**: Implemented proper error codes and user-friendly messages
+- ✅ **Form Validation**: Enhanced client-side validation matching server requirements
+
+**Authentication Flow Improvements**:
+- ✅ **Customer Authentication**: Email-based login system with proper validation
+- ✅ **User Registration**: Complete registration flow with email verification and duplicate checking
+- ✅ **Password Security**: Secure password hashing with bcrypt
+- ✅ **Response Processing**: Proper handling of API success/error responses
+- ✅ **State Management**: Improved AuthProvider with registration support
+
+**API Endpoint Specifications**:
+- **Login**: `POST /login.php` - Email/password authentication with token generation
+- **Registration**: `POST /register.php` - Customer registration with validation
+- **Response Format**: Consistent success/error structure across all endpoints
+- **Field Validation**: Comprehensive validation for all user inputs
+- **Security**: Proper password hashing and email uniqueness enforcement
+
+### Database Schema Enhancements
+
+**Complete Database Restructuring**:
+- ✅ **Customer Authentication**: Enhanced `flutter2_users` table with customer-focused fields (name, email, phone, address, role)
+- ✅ **Product Management**: Improved `flutter2_products` table with better field naming and inventory tracking
+- ✅ **Order Processing**: Enhanced `flutter2_orders` table with comprehensive order tracking and status management
+- ✅ **Inventory Tracking**: Robust stock management with automatic updates and constraints
+- ✅ **Data Relationships**: Proper foreign key constraints and referential integrity
+
+**New Database Features**:
+- **User Roles**: Support for both 'customer' and 'admin' roles with proper access control
+- **Product Categories**: Enhanced category management with image support and active status tracking
+- **Order Status Tracking**: Complete order lifecycle management (pending, processing, completed, cancelled)
+- **Payment Integration**: Support for multiple payment methods (Cash on Delivery, GCash, Bank Transfer)
+- **Stock Management**: Automatic stock deduction on order completion with low stock alerts
+- **Data Analytics**: Views for sales analytics and inventory monitoring
+
+**Database Constraints & Security**:
+- **Data Validation**: CHECK constraints for price, stock, and quantity validation
+- **Unique Constraints**: Prevent duplicate emails, cart items, and product names
+- **Foreign Key Constraints**: Maintain referential integrity across all relationships
+- **Index Optimization**: Strategic indexes for improved query performance
+- **Trigger Automation**: Automatic stock updates when orders are placed
+
+**Enhanced Data Models**:
+- **Users**: Complete customer profiles with contact information and role-based access
+- **Products**: Comprehensive product catalog with categories, pricing, and inventory
+- **Orders**: Full order management with customer details, payment tracking, and status updates
+- **Cart**: Session-based and user-based cart management for seamless shopping
+- **Analytics**: Built-in views for sales reporting and inventory monitoring
+
+**Sample Data & Testing**:
+- **Realistic Test Data**: Comprehensive sample data for all entities
+- **Multiple User Types**: Admin and customer user examples
+- **Product Variety**: Diverse product catalog across multiple categories
+- **Order Scenarios**: Sample orders demonstrating different statuses and payment methods
+- **Performance Optimization**: Strategic data distribution for testing scalability
+
+**Database Views & Analytics**:
+- `product_inventory_view`: Real-time inventory status and stock level monitoring
+- `order_summary_view`: Comprehensive order tracking and customer analytics
+- `sales_analytics_view`: Daily sales reporting and revenue analysis
+- **Performance Metrics**: Built-in tracking for sales trends and inventory turnover
+
 ## [0.0.12] - 2025-11-21
 
 ### Added

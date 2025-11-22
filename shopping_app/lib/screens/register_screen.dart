@@ -41,20 +41,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
     try {
       final apiService = ApiService();
       
-      // TODO: Replace with actual registration API endpoint
-      // For now, show success message
-      await Future.delayed(const Duration(seconds: 2)); // Simulate API call
+      // Call the registration API
+      final result = await apiService.register(
+        name: _nameController.text.trim(),
+        email: _emailController.text.trim(),
+        phone: _phoneController.text.trim(),
+        address: _addressController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
       
       setState(() {
         _isLoading = false;
       });
 
-      // Show success message and navigate to login
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Registration successful! Please login with your credentials.')),
-      );
-      
-      Navigator.pushReplacementNamed(context, '/login');
+      if (result['success'] == true) {
+        // Show success message and navigate to login
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Registration successful! Please login with your credentials.')),
+        );
+        
+        Navigator.pushReplacementNamed(context, '/login');
+      } else {
+        // Show error message from API
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Registration failed: ${result['message']}')),
+        );
+      }
       
     } catch (e) {
       setState(() {
