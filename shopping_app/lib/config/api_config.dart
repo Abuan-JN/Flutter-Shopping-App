@@ -7,6 +7,7 @@ class ApiConfig {
   static const String getCategories = "${baseUrl}get_categories.php";
   static const String login = "${baseUrl}login.php";
   static const String register = "${baseUrl}register.php";
+  static const String refreshToken = "${baseUrl}refresh_token.php";
   static const String addToCart = "${baseUrl}add_to_cart.php";
   static const String getCart = "${baseUrl}get_cart.php";
   static const String removeCartItem = "${baseUrl}remove_cart_item.php";
