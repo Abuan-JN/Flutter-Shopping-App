@@ -141,17 +141,17 @@ INSERT INTO `flutter2_products` (`name`, `description`, `price`, `category_id`, 
 ('iPhone 15 Pro', 'Latest iPhone with A17 Pro chip, titanium design, and advanced camera system', 1299.99, 1, 'https://via.placeholder.com/300x300/000000/FFFFFF?text=iPhone+15+Pro', 20, 1),
 ('MacBook Air M3', 'Ultrafast and ultraportable laptop with M3 chip and all-day battery life', 1199.99, 1, 'https://via.placeholder.com/300x300/6c757d/FFFFFF?text=MacBook+Air+M3', 15, 1),
 ('Sony WH-1000XM5', 'Industry leading noise canceling headphones with 30-hour battery life', 399.99, 1, 'https://via.placeholder.com/300x300/495057/FFFFFF?text=Sony+WH-1000XM5', 25, 1),
-('Samsung 65" QLED TV', '4K Ultra HD Smart TV with Quantum Dot technology and HDR10+', 1899.99, 1, 'https://via.placeholder.com/300x300/003366/FFFFFF?text=Samsung+QLED+TV', 10, 1),
+('Samsung 65 inch QLED TV', '4K Ultra HD Smart TV with Quantum Dot technology and HDR10 plus', 1899.99, 1, 'https://via.placeholder.com/300x300/003366/FFFFFF?text=Samsung+QLED+TV', 10, 1),
 
 -- Clothing
 ('Nike Air Force 1', 'Classic basketball shoes with modern comfort and style', 99.99, 2, 'https://via.placeholder.com/300x300/f8f9fa/000000?text=Nike+Air+Force+1', 50, 1),
-('Levi\'s 501 Jeans', 'Iconic straight fit jeans made with premium denim', 79.99, 2, 'https://via.placeholder.com/300x300/6c757d/FFFFFF?text=Levis+501+Jeans', 40, 1),
+('Levis 501 Jeans', 'Iconic straight fit jeans made with premium denim', 79.99, 2, 'https://via.placeholder.com/300x300/6c757d/FFFFFF?text=Levis+501+Jeans', 40, 1),
 ('Uniqlo Ultra Light Down Jacket', 'Water-repellent lightweight down jacket perfect for travel', 89.99, 2, 'https://via.placeholder.com/300x300/17a2b8/FFFFFF?text=Ultra+Light+Down', 35, 1),
 
 -- Books
 ('The Psychology of Money', 'Timeless lessons on wealth, greed, and happiness', 15.99, 3, 'https://via.placeholder.com/300x300/151515/FFFFFF?text=Psychology+of+Money', 100, 1),
-('Atomic Habits', 'An easy & proven way to build good habits & break bad ones', 17.99, 3, 'https://via.placeholder.com/300x300/495057/FFFFFF?text=Atomic+Habits', 80, 1),
-('Dune (Frank Herbert)', 'Epic science fiction novel set in the distant future amidst a feudal interstellar society', 14.99, 3, 'https://via.placeholder.com/300x300/dc3545/FFFFFF?text=Dune', 60, 1),
+('Atomic Habits', 'An easy and proven way to build good habits and break bad ones', 17.99, 3, 'https://via.placeholder.com/300x300/495057/FFFFFF?text=Atomic+Habits', 80, 1),
+('Dune by Frank Herbert', 'Epic science fiction novel set in the distant future amidst a feudal interstellar society', 14.99, 3, 'https://via.placeholder.com/300x300/dc3545/FFFFFF?text=Dune', 60, 1),
 
 -- Home & Garden
 ('Dyson V15 Detect', 'Cordless vacuum cleaner with laser dust detection and HEPA filter', 749.99, 4, 'https://via.placeholder.com/300x300/000000/FFFFFF?text=Dyson+V15', 12, 1),
@@ -161,28 +161,30 @@ INSERT INTO `flutter2_products` (`name`, `description`, `price`, `category_id`, 
 -- Sports & Outdoors
 ('Yoga Mat (Non-Slip)', 'Extra thick 10mm non-slip yoga mat with carrying strap', 29.99, 5, 'https://via.placeholder.com/300x300/28a745/FFFFFF?text=Yoga+Mat', 45, 1),
 ('Coleman Camping Tent', '4-person weatherproof camping tent with bathtub floor', 129.99, 5, 'https://via.placeholder.com/300x300/dc3545/FFFFFF?text=Camping+Tent', 20, 1),
-('Nike跑步 Shoes', 'Breathable running shoes with responsive cushioning', 89.99, 5, 'https://via.placeholder.com/300x300/f8f9fa/000000?text=Running+Shoes', 30, 1);
+('Nike Running Shoes', 'Breathable running shoes with responsive cushioning', 89.99, 5, 'https://via.placeholder.com/300x300/f8f9fa/000000?text=Running+Shoes', 30, 1);
 
 -- Sample orders for testing
 INSERT INTO `flutter2_orders` (`user_id`, `customer_name`, `customer_email`, `customer_phone`, `customer_address`, `total_amount`, `status`, `payment_method`, `payment_status`, `notes`) VALUES
-(2, 'John Doe', 'john@example.com', '09123456789', '123 Main Street, Manila, Philippines', 1399.97, 'completed', 'Cash on Delivery', 'pending', 'Please handle with care'),
-(3, 'Jane Smith', 'jane@example.com', '09987654321', '456 Oak Avenue, Quezon City, Philippines', 289.97, 'processing', 'GCash', 'paid', 'Gift wrapping requested'),
-(2, 'John Doe', 'john@example.com', '09123456789', '123 Main Street, Manila, Philippines', 99.99, 'pending', 'Bank Transfer', 'pending', NULL);
+(2, 'John Doe', 'john@example.com', '09123456789', '123 Main Street Manila Philippines', 1399.97, 'completed', 'Cash on Delivery', 'pending', 'Please handle with care'),
+(3, 'Jane Smith', 'jane@example.com', '09987654321', '456 Oak Avenue Quezon City Philippines', 289.97, 'processing', 'GCash', 'paid', 'Gift wrapping requested'),
+(2, 'John Doe', 'john@example.com', '09123456789', '123 Main Street Manila Philippines', 99.99, 'pending', 'Bank Transfer', 'pending', NULL);
 
 -- Sample order items for testing
+-- Note: Using actual product IDs from the products table above
+-- Products 1-4: Electronics, 5-7: Clothing, 8-10: Books, 11-13: Home & Garden, 14-16: Sports & Outdoors
 INSERT INTO `flutter2_order_items` (`order_id`, `product_id`, `quantity`, `price`, `product_name`, `product_image`) VALUES
--- Order 1 items
+-- Order 1 items (John Doe's order)
 (1, 1, 1, 1299.99, 'iPhone 15 Pro', 'https://via.placeholder.com/300x300/000000/FFFFFF?text=iPhone+15+Pro'),
-(1, 7, 1, 99.99, 'Nike Air Force 1', 'https://via.placeholder.com/300x300/f8f9fa/000000?text=Nike+Air+Force+1'),
--- Order 2 items
-(2, 11, 1, 15.99, 'The Psychology of Money', 'https://via.placeholder.com/300x300/151515/FFFFFF?text=Psychology+of+Money'),
-(2, 12, 1, 17.99, 'Atomic Habits', 'https://via.placeholder.com/300x300/495057/FFFFFF?text=Atomic+Habits'),
-(2, 13, 1, 14.99, 'Dune (Frank Herbert)', 'https://via.placeholder.com/300x300/dc3545/FFFFFF?text=Dune'),
-(2, 16, 1, 79.99, 'Levi\'s 501 Jeans', 'https://via.placeholder.com/300x300/6c757d/FFFFFF?text=Levis+501+Jeans'),
-(2, 17, 1, 89.99, 'Uniqlo Ultra Light Down Jacket', 'https://via.placeholder.com/300x300/17a2b8/FFFFFF?text=Ultra+Light+Down'),
-(2, 18, 1, 79.99, 'IKEA KALLAX Shelf Unit', 'https://via.placeholder.com/300x300/6c757d/FFFFFF?text=KALLAX+Shelf'),
--- Order 3 items
-(3, 20, 1, 99.99, 'Nike Air Force 1', 'https://via.placeholder.com/300x300/f8f9fa/000000?text=Nike+Air+Force+1');
+(1, 5, 1, 99.99, 'Nike Air Force 1', 'https://via.placeholder.com/300x300/f8f9fa/000000?text=Nike+Air+Force+1'),
+-- Order 2 items (Jane Smith's order)
+(2, 8, 1, 15.99, 'The Psychology of Money', 'https://via.placeholder.com/300x300/151515/FFFFFF?text=Psychology+of+Money'),
+(2, 9, 1, 17.99, 'Atomic Habits', 'https://via.placeholder.com/300x300/495057/FFFFFF?text=Atomic+Habits'),
+(2, 10, 1, 14.99, 'Dune by Frank Herbert', 'https://via.placeholder.com/300x300/dc3545/FFFFFF?text=Dune'),
+(2, 6, 1, 79.99, 'Levis 501 Jeans', 'https://via.placeholder.com/300x300/6c757d/FFFFFF?text=Levis+501+Jeans'),
+(2, 7, 1, 89.99, 'Uniqlo Ultra Light Down Jacket', 'https://via.placeholder.com/300x300/17a2b8/FFFFFF?text=Ultra+Light+Down'),
+(2, 11, 1, 79.99, 'IKEA KALLAX Shelf Unit', 'https://via.placeholder.com/300x300/6c757d/FFFFFF?text=KALLAX+Shelf'),
+-- Order 3 items (John Doe's second order)
+(3, 5, 1, 99.99, 'Nike Air Force 1', 'https://via.placeholder.com/300x300/f8f9fa/000000?text=Nike+Air+Force+1');
 
 -- Create indexes for better performance
 CREATE INDEX idx_products_category_active ON `flutter2_products`(`category_id`, `is_active`);
