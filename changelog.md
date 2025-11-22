@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.13] - 2025-11-22
+
+### Fixed
+- **API Base URL Typo Fix**
+  - Corrected hostname typo in [`ApiConfig`](shopping_app/lib/config/api_config.dart:3) from "abuanplmunflutter" to "abuanpimunflutter"
+  - Resolved "Failed host lookup" error when accessing API endpoints
+  - Fixed connection issues for all API operations (product listing, order history, cart management)
+
+- **Order History Type Conversion Fix**
+  - Enhanced [`Order.fromJson()`](shopping_app/lib/models/order.dart:28) method to handle flexible data formats
+  - Fixed "type '_Map<String, dynamic>' is not a subtype of type 'List<dynamic>'" error
+  - Added robust type checking for items field (handles both List and Map formats)
+  - Improved error handling for malformed API responses
+
+- **Order History UI Layout Fix**
+  - Resolved bottom overflow issue in [`OrderHistoryScreen`](shopping_app/lib/screens/order_history_screen.dart:467)
+  - Modified `_buildFilterSection()` layout to use flexible height constraints
+  - Replaced fixed height with `ConstrainedBox` and `mainAxisSize: MainAxisSize.min`
+  - Improved responsiveness across different screen sizes
+
+### Technical Details
+- API configuration now points to correct server endpoint
+- Order parsing handles both single item (Map) and multiple items (List) scenarios
+- UI layout prevents overflow while maintaining functionality
+- Enhanced error resilience for API data inconsistencies
+
+### Bug Fixes Summary
+- ✅ Resolved API connection failures due to hostname typo
+- ✅ Fixed order history crashes from type conversion errors
+- ✅ Eliminated UI overflow issues in order filtering section
+- ✅ Improved app stability and user experience
+
 ## [0.0.12] - 2025-11-21
 
 ### Added

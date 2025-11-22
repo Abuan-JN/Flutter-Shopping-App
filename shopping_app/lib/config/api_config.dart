@@ -1,6 +1,6 @@
 class ApiConfig {
   /// Base URL for all API endpoints
-  static const String baseUrl = "http://abuanplmunflutter.sportsontheweb.net/api/";
+  static const String baseUrl = "http://abuanpimunflutter.sportsontheweb.net/api/";
   
   /// API endpoints
   static const String getProducts = "${baseUrl}get_products.php";

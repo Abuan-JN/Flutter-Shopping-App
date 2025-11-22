@@ -26,8 +26,19 @@ class Order {
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {
-    var itemsList = json['items'] as List;
-    List<OrderItem> items = itemsList.map((i) => OrderItem.fromJson(i)).toList();
+    // Handle items field that might come as a Map instead of List
+    List<OrderItem> items = [];
+    if (json['items'] != null) {
+      if (json['items'] is List) {
+        // Normal case - items is a List
+        var itemsList = json['items'] as List;
+        items = itemsList.map((i) => OrderItem.fromJson(i)).toList();
+      } else if (json['items'] is Map) {
+        // Handle case where items is a single Map object
+        var itemMap = json['items'] as Map<String, dynamic>;
+        items = [OrderItem.fromJson(itemMap)];
+      }
+    }
 
     return Order(
       id: json['id'] as int,

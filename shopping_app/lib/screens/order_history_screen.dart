@@ -468,7 +468,6 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     final filteredOrders = _getFilteredOrders();
     
     return Container(
-      height: 80,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -482,6 +481,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -501,8 +501,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
               ],
             ),
             const SizedBox(height: 8),
-            SizedBox(
-              height: 40,
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 60),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: _statusFilters.length,
