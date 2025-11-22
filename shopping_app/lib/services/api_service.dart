@@ -80,122 +80,6 @@ class ApiService {
     }
   }
 
-  /// Add new product (admin)
-  Future<Map<String, dynamic>> addProduct({
-    required String name,
-    required String description,
-    required double price,
-    required int categoryId,
-    required String image,
-    required int stock,
-  }) async {
-    try {
-      final response = await _client.post(
-        Uri.parse(ApiConfig.addProduct),
-        headers: _headers,
-        body: jsonEncode({
-          'name': name,
-          'description': description,
-          'price': price,
-          'category_id': categoryId,
-          'image': image,
-          'stock': stock,
-        }),
-      );
-      
-      final jsonResponse = await _handleResponse(response);
-      
-      if (jsonResponse['success'] == true) {
-        return {
-          'success': true,
-          'message': jsonResponse['message'] ?? 'Product added successfully',
-          'data': jsonResponse['data'],
-        };
-      } else {
-        return {
-          'success': false,
-          'message': jsonResponse['message'] ?? 'Failed to add product',
-        };
-      }
-    } on FormatException {
-      rethrow;
-    }
-  }
-
-  /// Update existing product (admin)
-  Future<Map<String, dynamic>> updateProduct({
-    required int productId,
-    required String name,
-    required String description,
-    required double price,
-    required int categoryId,
-    required String image,
-    required int stock,
-    required bool isActive,
-  }) async {
-    try {
-      final response = await _client.post(
-        Uri.parse(ApiConfig.updateProduct),
-        headers: _headers,
-        body: jsonEncode({
-          'id': productId,
-          'name': name,
-          'description': description,
-          'price': price,
-          'category_id': categoryId,
-          'image': image,
-          'stock': stock,
-          'is_active': isActive ? 1 : 0,
-        }),
-      );
-      
-      final jsonResponse = await _handleResponse(response);
-      
-      if (jsonResponse['success'] == true) {
-        return {
-          'success': true,
-          'message': jsonResponse['message'] ?? 'Product updated successfully',
-          'data': jsonResponse['data'],
-        };
-      } else {
-        return {
-          'success': false,
-          'message': jsonResponse['message'] ?? 'Failed to update product',
-        };
-      }
-    } on FormatException {
-      rethrow;
-    }
-  }
-
-  /// Delete product (admin)
-  Future<Map<String, dynamic>> deleteProduct(int productId) async {
-    try {
-      final response = await _client.post(
-        Uri.parse(ApiConfig.deleteProduct),
-        headers: _headers,
-        body: jsonEncode({
-          'id': productId,
-        }),
-      );
-      
-      final jsonResponse = await _handleResponse(response);
-      
-      if (jsonResponse['success'] == true) {
-        return {
-          'success': true,
-          'message': jsonResponse['message'] ?? 'Product deleted successfully',
-        };
-      } else {
-        return {
-          'success': false,
-          'message': jsonResponse['message'] ?? 'Failed to delete product',
-        };
-      }
-    } on FormatException {
-      rethrow;
-    }
-  }
 
   /// Add product to cart
   Future<Map<String, dynamic>> addToCart({
@@ -349,8 +233,8 @@ class ApiService {
     }
   }
 
-  /// Admin login with enhanced CORS support
-  Future<Map<String, dynamic>> login(String username, String password) async {
+  /// User login with enhanced CORS support
+  Future<Map<String, dynamic>> login(String email, String password) async {
     try {
       CorsHelper.debugCorsIssue(ApiConfig.login, _authHeaders);
       
@@ -368,7 +252,7 @@ class ApiService {
           'Origin': CorsConfig.baseUrl,
         },
         body: jsonEncode({
-          'username': username,
+          'email': email,
           'password': password,
         }),
       );
@@ -392,6 +276,46 @@ class ApiService {
         return {
           'success': false,
           'message': jsonResponse['message'] ?? 'Login failed',
+        };
+      }
+    } on FormatException {
+      rethrow;
+    }
+  }
+
+  /// User registration
+  Future<Map<String, dynamic>> register({
+    required String name,
+    required String email,
+    required String phone,
+    required String address,
+    required String password,
+  }) async {
+    try {
+      final response = await _client.post(
+        Uri.parse(ApiConfig.register),
+        headers: _headers,
+        body: jsonEncode({
+          'name': name,
+          'email': email,
+          'phone': phone,
+          'address': address,
+          'password': password,
+        }),
+      );
+      
+      final jsonResponse = await _handleResponse(response);
+      
+      if (jsonResponse['success'] == true) {
+        return {
+          'success': true,
+          'message': jsonResponse['message'] ?? 'Registration successful',
+          'data': jsonResponse['data'],
+        };
+      } else {
+        return {
+          'success': false,
+          'message': jsonResponse['message'] ?? 'Registration failed',
         };
       }
     } on FormatException {

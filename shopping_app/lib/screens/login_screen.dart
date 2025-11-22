@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
-import 'admin_dashboard_screen.dart';
+import 'register_screen.dart';
+import 'customer_product_list_screen.dart';
 
-class AdminLoginScreen extends StatefulWidget {
-  const AdminLoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<AdminLoginScreen> createState() => _AdminLoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _AdminLoginScreenState extends State<AdminLoginScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -29,12 +30,13 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
       
       try {
         await authProvider.login(
-          _usernameController.text.trim(),
+          _emailController.text.trim(),
           _passwordController.text.trim(),
         );
         
-        if (authProvider.isAdminLoggedIn) {
-          Navigator.pushReplacementNamed(context, '/dashboard');
+        if (!authProvider.isLoading && authProvider.errorMessage == null) {
+          // Navigate to products screen on successful login
+          Navigator.pushReplacementNamed(context, '/products');
         }
       } catch (e) {
         // Error handling is done in the provider
@@ -49,7 +51,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Login'),
+        title: const Text('Customer Login'),
         backgroundColor: theme.colorScheme.primary,
       ),
       body: Padding(
@@ -60,14 +62,14 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                Icons.admin_panel_settings,
+                Icons.shopping_cart,
                 size: 80,
                 color: theme.colorScheme.primary,
               ),
               const SizedBox(height: 30),
               const Center(
                 child: Text(
-                  'Admin Panel',
+                  'Welcome Back',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -76,18 +78,14 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
               ),
               const SizedBox(height: 40),
               TextFormField(
-                controller: _usernameController,
+                controller: _emailController,
                 decoration: const InputDecoration(
-                  labelText: 'Username',
-                  prefixIcon: Icon(Icons.person),
+                  labelText: 'Email Address',
+                  prefixIcon: Icon(Icons.email),
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) {
-                  if (value?.trim().isEmpty == true) {
-                    return 'Please enter your username';
-                  }
-                  return null;
-                },
+                validator: FormValidator.validateEmail,
+                keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
               ),
               const SizedBox(height: 20),
@@ -100,15 +98,31 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 ),
                 obscureText: true,
                 validator: (value) {
-                  if (value?.trim().isEmpty == true) {
+                  if (value == null || value.trim().isEmpty) {
                     return 'Please enter your password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
                   }
                   return null;
                 },
                 textInputAction: TextInputAction.done,
                 onFieldSubmitted: (_) => _submitLogin(),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    // TODO: Implement forgot password functionality
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Forgot password functionality coming soon!')),
+                    );
+                  },
+                  child: const Text('Forgot Password?'),
+                ),
+              ),
+              const SizedBox(height: 10),
               if (authProvider.errorMessage != null)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
@@ -137,10 +151,37 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                         ),
                 ),
               ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Don\'t have an account?'),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
+                    child: const Text('Register here'),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+// FormValidator class for consistency with existing code
+class FormValidator {
+  /// Validates email format
+  static String? validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email is required';
+    }
+    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+      return 'Please enter a valid email address';
+    }
+    return null;
   }
 }

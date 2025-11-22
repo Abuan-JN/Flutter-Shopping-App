@@ -5,12 +5,7 @@ import '../services/api_service.dart';
 import '../models/order.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
-  final bool isAdminView;
-
-  const OrderHistoryScreen({
-    super.key,
-    this.isAdminView = false,
-  });
+  const OrderHistoryScreen({super.key});
 
   @override
   State<OrderHistoryScreen> createState() => _OrderHistoryScreenState();
@@ -22,7 +17,6 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
   bool _isLoading = true;
   String? _errorMessage;
   String _selectedStatus = 'All';
-  DateTime? _selectedDate;
   
   // Status filter options
   final List<String> _statusFilters = [
@@ -74,18 +68,6 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
           .toList();
     }
     
-    // Filter by date if selected (for admin view)
-    if (_selectedDate != null && widget.isAdminView) {
-      filteredOrders = filteredOrders
-          .where((order) {
-            final orderDate = DateTime.parse(order.createdAt);
-            return orderDate.year == _selectedDate!.year &&
-                   orderDate.month == _selectedDate!.month &&
-                   orderDate.day == _selectedDate!.day;
-          })
-          .toList();
-    }
-    
     return filteredOrders;
   }
 
@@ -119,21 +101,6 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     }
   }
 
-  Future<void> _selectDate() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020, 1, 1),
-      lastDate: DateTime.now(),
-    );
-
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-      });
-    }
-  }
-
   void _viewOrderDetails(Order order) {
     showDialog(
       context: context,
@@ -141,39 +108,18 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     );
   }
 
-  void _updateOrderStatus(Order order, String newStatus) async {
-    // This would typically call an API to update the order status
-    // For now, we'll show a success message
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Order ${order.id} status updated to: $newStatus')),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.isAdminView ? 'All Orders' : 'Order History'),
-        actions: widget.isAdminView
-            ? [
-                IconButton(
-                  icon: const Icon(Icons.calendar_today),
-                  onPressed: _selectDate,
-                  tooltip: 'Filter by date',
-                ),
-                IconButton(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: _loadOrders,
-                  tooltip: 'Refresh orders',
-                ),
-              ]
-            : [
-                IconButton(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: _loadOrders,
-                  tooltip: 'Refresh orders',
-                ),
-              ],
+        title: const Text('Order History'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: _loadOrders,
+            tooltip: 'Refresh orders',
+          ),
+        ],
       ),
       body: _buildBody(),
       bottomNavigationBar: _buildFilterSection(),
@@ -221,25 +167,21 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              widget.isAdminView ? Icons.list_alt : Icons.receipt_long,
+            const Icon(
+              Icons.receipt_long,
               size: 80,
               color: Colors.grey,
             ),
             const SizedBox(height: 16),
             Text(
-              widget.isAdminView
-                  ? 'No orders found'
-                  : 'No order history available',
+              'No order history available',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
               _selectedStatus != 'All'
                   ? 'Try selecting a different status filter'
-                  : widget.isAdminView
-                      ? 'No orders match the current filters'
-                      : 'Place your first order to see it here',
+                  : 'Place your first order to see it here',
               style: const TextStyle(color: Colors.grey),
             ),
           ],
@@ -334,24 +276,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
               
               const SizedBox(height: 12),
               
-              // Customer Information (Admin view only)
-              if (widget.isAdminView) ...[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Customer: ${order.customerName}',
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      order.customerPhone,
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                    const SizedBox(height: 12),
-                  ],
-                ),
-              ] else const SizedBox(),
+              // Customer Information (for customer viewing their own orders)
+              const SizedBox.shrink(),
               
               // Order Items Preview
               Text(
@@ -409,10 +335,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                 ),
               ),
               
-              // Admin Actions (Admin view only)
-              if (widget.isAdminView) ...[
-                _buildAdminActions(order),
-              ] else const SizedBox(),
+              const SizedBox.shrink(),
             ],
           ),
         ),
@@ -420,49 +343,6 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     );
   }
 
-  Widget _buildAdminActions(Order order) {
-    return Column(
-      children: [
-        const SizedBox(height: 12),
-        const Divider(),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: DropdownButtonFormField<String>(
-                value: order.status,
-                decoration: const InputDecoration(
-                  labelText: 'Order Status',
-                  border: OutlineInputBorder(),
-                ),
-                items: ['Pending', 'Processing', 'Completed', 'Cancelled']
-                    .map((status) => DropdownMenuItem(
-                          value: status,
-                          child: Row(
-                            children: [
-                              Icon(
-                                _getStatusIcon(status),
-                                color: _getStatusColor(status),
-                                size: 16,
-                              ),
-                              const SizedBox(width: 6),
-                              Text(status),
-                            ],
-                          ),
-                        ))
-                    .toList(),
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    _updateOrderStatus(order, newValue);
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 
   Widget _buildFilterSection() {
     final filteredOrders = _getFilteredOrders();
@@ -563,24 +443,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             
             const SizedBox(height: 16),
             
-            // Customer Information
-            if (widget.isAdminView) ...[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Customer Information:',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  const SizedBox(height: 8),
-                  _buildDetailRow('Name:', Text(order.customerName)),
-                  _buildDetailRow('Email:', Text(order.customerEmail)),
-                  _buildDetailRow('Phone:', Text(order.customerPhone)),
-                  _buildDetailRow('Address:', Text(order.customerAddress)),
-                  const SizedBox(height: 16),
-                ],
-              ),
-            ] else const SizedBox(),
+            const SizedBox.shrink(),
             
             // Order Items
             const Text(
