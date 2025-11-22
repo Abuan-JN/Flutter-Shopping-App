@@ -53,8 +53,8 @@ try {
     $description = !empty($data['description']) ? trim($data['description']) : null;
     $price = !empty($data['price']) ? floatval($data['price']) : null;
     $category_id = !empty($data['category_id']) ? intval($data['category_id']) : null;
-    $image_url = !empty($data['image_url']) ? trim($data['image_url']) : null;
-    $stock_quantity = isset($data['stock_quantity']) ? intval($data['stock_quantity']) : null;
+    $image = !empty($data['image']) ? trim($data['image']) : null;
+    $stock = isset($data['stock']) ? intval($data['stock']) : null;
     $is_active = !empty($data['is_active']) ? ($data['is_active'] ? 1 : 0) : null;
     
     // Build dynamic update query
@@ -95,13 +95,13 @@ try {
         $update_fields[] = "category_id = ?";
         $params[] = $category_id;
     }
-    if ($image_url !== null) {
-        $update_fields[] = "image_url = ?";
-        $params[] = $image_url;
+    if ($image !== null) {
+        $update_fields[] = "image = ?";
+        $params[] = $image;
     }
-    if ($stock_quantity !== null) {
-        $update_fields[] = "stock_quantity = ?";
-        $params[] = $stock_quantity;
+    if ($stock !== null) {
+        $update_fields[] = "stock = ?";
+        $params[] = $stock;
     }
     if ($is_active !== null) {
         $update_fields[] = "is_active = ?";
@@ -135,8 +135,8 @@ try {
                                 p.price,
                                 p.category_id,
                                 c.name as category_name,
-                                p.image_url,
-                                p.stock_quantity,
+                                p.image,
+                                p.stock,
                                 p.is_active,
                                 p.created_at,
                                 p.updated_at

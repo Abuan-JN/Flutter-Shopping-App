@@ -130,7 +130,7 @@ try {
                 oi.price,
                 oi.created_at,
                 p.name as product_name,
-                p.image_url
+                p.image
             FROM flutter2_order_items oi
             JOIN flutter2_products p ON oi.product_id = p.id
             WHERE oi.order_id = ?
@@ -161,7 +161,7 @@ try {
                     'id' => $item['id'],
                     'product_id' => $item['product_id'],
                     'product_name' => $item['product_name'],
-                    'image_url' => $item['image_url'],
+                    'image' => $item['image'],
                     'quantity' => $item['quantity'],
                     'price' => (float)$item['price'],
                     'total_price' => (float)number_format($item['price'] * $item['quantity'], 2)

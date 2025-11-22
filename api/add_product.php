@@ -40,8 +40,8 @@ try {
     $description = !empty($data['description']) ? trim($data['description']) : null;
     $price = floatval($data['price']);
     $category_id = intval($data['category_id']);
-    $image_url = !empty($data['image_url']) ? trim($data['image_url']) : null;
-    $stock_quantity = !empty($data['stock_quantity']) ? intval($data['stock_quantity']) : 0;
+    $image = !empty($data['image']) ? trim($data['image']) : null;
+    $stock = !empty($data['stock']) ? intval($data['stock']) : 0;
     
     // Validate price
     if ($price < 0) {
@@ -65,7 +65,7 @@ try {
     }
     
     // Insert product into database
-    $sql = "INSERT INTO flutter2_products (name, description, price, category_id, image_url, stock_quantity)
+    $sql = "INSERT INTO flutter2_products (name, description, price, category_id, image, stock)
             VALUES (?, ?, ?, ?, ?, ?)";
     
     $affected_rows = modifyData($sql, [
@@ -73,8 +73,8 @@ try {
         $description,
         $price,
         $category_id,
-        $image_url,
-        $stock_quantity
+        $image,
+        $stock
     ]);
     
     if ($affected_rows > 0) {
@@ -87,8 +87,8 @@ try {
                                 p.price,
                                 p.category_id,
                                 c.name as category_name,
-                                p.image_url,
-                                p.stock_quantity,
+                                p.image,
+                                p.stock,
                                 p.is_active,
                                 p.created_at,
                                 p.updated_at

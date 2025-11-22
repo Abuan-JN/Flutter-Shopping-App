@@ -230,6 +230,33 @@ This is a **BREAKING CHANGE** release that completely transforms the application
 - `sales_analytics_view`: Daily sales reporting and revenue analysis
 - **Performance Metrics**: Built-in tracking for sales trends and inventory turnover
 
+### API Column Name Alignment Fix
+
+**Critical Database Schema Synchronization**:
+- ✅ **Fixed Column Name Mismatches**: Updated all API endpoints to use correct database column names
+- ✅ **Renamed Fields**: `image_url` → `image`, `stock_quantity` → `stock` across all API files
+- ✅ **API Endpoint Updates**: Fixed 7 API files (`get_products.php`, `add_product.php`, `update_product.php`, `add_to_cart.php`, `create_order.php`, `get_cart.php`, `get_orders.php`)
+- ✅ **Data Consistency**: Ensured all API responses match the updated database schema
+- ✅ **Error Resolution**: Fixed FormatException errors caused by unknown column references
+
+**Updated API Files**:
+```sql
+-- Fixed column references in all API endpoints:
+image_url → image (for product images)
+stock_quantity → stock (for inventory tracking)
+```
+
+**API Files Corrected**:
+- **Product APIs**: `get_products.php`, `add_product.php`, `update_product.php`
+- **Cart APIs**: `add_to_cart.php`, `get_cart.php`
+- **Order APIs**: `create_order.php`, `get_orders.php`
+- **Database Consistency**: All APIs now properly reference `flutter2_products.image` and `flutter2_products.stock`
+
+**Impact Resolution**:
+- **Before**: `FormatException: Error retrieving products: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'p.image_url' in 'field list'`
+- **After**: All API endpoints successfully retrieve and process product data with correct column names
+- **Data Flow**: Seamless integration between Flutter app and backend API with consistent field naming
+
 ## [0.0.12] - 2025-11-21
 
 ### Added

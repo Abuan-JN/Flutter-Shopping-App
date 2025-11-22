@@ -92,7 +92,7 @@ try {
             c.session_id,
             p.name,
             p.price,
-            p.stock_quantity
+            p.stock
         FROM flutter2_cart c
         JOIN flutter2_products p ON c.product_id = p.id
         WHERE c.session_id = ? AND p.is_active = 1
@@ -115,11 +115,11 @@ try {
     $total_amount = 0;
     
     foreach ($cart_items as $item) {
-        if ($item['stock_quantity'] < $item['quantity']) {
+        if ($item['stock'] < $item['quantity']) {
             $stock_issues[] = [
                 'product_name' => $item['name'],
                 'requested' => $item['quantity'],
-                'available' => $item['stock_quantity']
+                'available' => $item['stock']
             ];
         }
         $total_amount += $item['price'] * $item['quantity'];
@@ -168,7 +168,7 @@ try {
         ]);
         
         // Update product stock
-        $stmt = $pdo->prepare("UPDATE flutter2_products SET stock_quantity = stock_quantity - ? WHERE id = ?");
+        $stmt = $pdo->prepare("UPDATE flutter2_products SET stock = stock - ? WHERE id = ?");
         $stmt->execute([$item['quantity'], $item['product_id']]);
     }
     

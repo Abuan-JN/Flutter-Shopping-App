@@ -52,8 +52,8 @@ try {
             p.name,
             p.description,
             p.price,
-            p.image_url,
-            p.stock_quantity,
+            p.image,
+            p.stock,
             p.category_id,
             c.quantity * p.price as total_price
         FROM flutter2_cart c
@@ -79,13 +79,13 @@ try {
     // Check for any items that might have stock issues
     $stock_warnings = [];
     foreach ($cart_items as $item) {
-        if ($item['stock_quantity'] < $item['quantity']) {
+        if ($item['stock'] < $item['quantity']) {
             $stock_warnings[] = [
                 'product_id' => $item['product_id'],
                 'product_name' => $item['name'],
                 'requested_quantity' => $item['quantity'],
-                'available_quantity' => $item['stock_quantity'],
-                'message' => 'Only ' . $item['stock_quantity'] . ' items available for ' . $item['name']
+                'available_quantity' => $item['stock'],
+                'message' => 'Only ' . $item['stock'] . ' items available for ' . $item['name']
             ];
         }
     }

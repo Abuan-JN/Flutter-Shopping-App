@@ -65,7 +65,7 @@ if (empty($session_id)) {
 
 try {
     // Check if product exists and is active
-    $stmt = $pdo->prepare("SELECT id, name, price, stock_quantity FROM flutter2_products WHERE id = ? AND is_active = 1");
+    $stmt = $pdo->prepare("SELECT id, name, price, stock FROM flutter2_products WHERE id = ? AND is_active = 1");
     $stmt->execute([$product_id]);
     $product = $stmt->fetch(PDO::FETCH_ASSOC);
     
@@ -79,13 +79,13 @@ try {
     }
     
     // Check stock availability
-    if ($product['stock_quantity'] < $quantity) {
+    if ($product['stock'] < $quantity) {
         http_response_code(400);
         echo json_encode([
             'success' => false,
-            'message' => 'Insufficient stock. Only ' . $product['stock_quantity'] . ' items available.',
+            'message' => 'Insufficient stock. Only ' . $product['stock'] . ' items available.',
             'data' => [
-                'available_quantity' => $product['stock_quantity']
+                'available_quantity' => $product['stock']
             ]
         ]);
         exit;
@@ -101,13 +101,13 @@ try {
         $new_quantity = $existing_item['quantity'] + $quantity;
         
         // Check if new quantity exceeds stock
-        if ($product['stock_quantity'] < $new_quantity) {
+        if ($product['stock'] < $new_quantity) {
             http_response_code(400);
             echo json_encode([
                 'success' => false,
-                'message' => 'Cannot add more items. Maximum available is ' . $product['stock_quantity'] . ' total.',
+                'message' => 'Cannot add more items. Maximum available is ' . $product['stock'] . ' total.',
                 'data' => [
-                    'available_quantity' => $product['stock_quantity'],
+                    'available_quantity' => $product['stock'],
                     'current_cart_quantity' => $existing_item['quantity']
                 ]
             ]);
@@ -136,7 +136,7 @@ try {
             c.quantity,
             p.name,
             p.price,
-            p.image_url,
+            p.image,
             (c.quantity * p.price) as total_price
         FROM flutter2_cart c
         JOIN flutter2_products p ON c.product_id = p.id

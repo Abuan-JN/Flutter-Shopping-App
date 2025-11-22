@@ -20,8 +20,8 @@ try {
                 p.price,
                 p.category_id,
                 c.name as category_name,
-                p.image_url,
-                p.stock_quantity,
+                p.image,
+                p.stock,
                 p.is_active,
                 p.created_at,
                 p.updated_at
