@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
 import '../config/api_config.dart';
 import '../config/auth_config.dart';
 import '../config/cors_config.dart';
@@ -16,6 +17,18 @@ class AuthService {
     String? baseUrl,
   })  : _client = client ?? http.Client(),
         _baseUrl = baseUrl ?? ApiConfig.baseUrl;
+  
+  /// Create a web-compatible HTTP client for browser environments
+  http.Client _createWebClient() {
+    if (kIsWeb) {
+      // For web, we need to use a different approach
+      // The default http.Client uses fetch API which has CORS limitations
+      // We'll use the same client but with enhanced headers
+      log('Using web-compatible HTTP client', name: 'AuthService');
+      return _client;
+    }
+    return _client;
+  }
 
   /// Dispose the HTTP client
   void dispose() {
@@ -25,8 +38,19 @@ class AuthService {
   /// Enhanced login with JWT token management
   Future<Map<String, dynamic>> login(String email, String password) async {
     try {
+      log('=== LOGIN DEBUG: Starting login process ===', name: 'AuthService');
+      log('Email: $email', name: 'AuthService');
+      log('Password length: ${password.length}', name: 'AuthService');
+      log('Base URL: $_baseUrl', name: 'AuthService');
+      log('Login endpoint: ${ApiConfig.login}', name: 'AuthService');
+      log('Full URL: $_baseUrl${ApiConfig.login}', name: 'AuthService');
+      
+      // Debug API configuration
+      ApiConfig.debugApiConfig();
+
       // Validate input
       if (!AuthConfig.validateEmailFormat(email)) {
+        log('Email validation failed', name: 'AuthService');
         return {
           'success': false,
           'message': 'Please enter a valid email address',
@@ -34,15 +58,20 @@ class AuthService {
       }
       
       if (password.length < AuthConfig.minPasswordLength) {
+        log('Password validation failed - too short', name: 'AuthService');
         return {
           'success': false,
           'message': 'Password must be at least ${AuthConfig.minPasswordLength} characters long',
         };
       }
       
+      log('Input validation passed', name: 'AuthService');
+      
       // Check for account lockout
+      log('Checking account lockout status', name: 'AuthService');
       final lockoutStatus = await _checkAccountLockout(email);
       if (lockoutStatus['isLocked']) {
+        log('Account is locked', name: 'AuthService');
         return {
           'success': false,
           'message': AuthConfig.accountLockedError,
@@ -51,89 +80,120 @@ class AuthService {
           },
         };
       }
+      log('Account lockout check passed', name: 'AuthService');
+      
+      // Prepare request data
+      final requestHeaders = {
+        ...CorsConfig.getFullHeaders(),
+        ...AuthConfig.authHeaders,
+        'Content-Type': 'application/json',
+      };
+      
+      final requestBody = {
+        'email': email,
+        'password': password,
+      };
+      
+      log('=== REQUEST DEBUG ===', name: 'AuthService');
+      log('Request URL: $_baseUrl${ApiConfig.login}', name: 'AuthService');
+      log('Request method: POST', name: 'AuthService');
+      log('Request headers: $requestHeaders', name: 'AuthService');
+      log('Request body: $requestBody', name: 'AuthService');
       
       // Make login request
-      final response = await _client.post(
-        Uri.parse('$_baseUrl${ApiConfig.login}'),
-        headers: {
-          ...CorsConfig.getFullHeaders(),
-          ...AuthConfig.authHeaders,
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          'email': email,
-          'password': password,
-        }),
-      );
+      log('Sending HTTP request...', name: 'AuthService');
+      log('Creating HTTP client...', name: 'AuthService');
       
-      // Handle response
-      final jsonResponse = _handleAuthResponse(response);
+      // Use web-compatible client for browser environments
+      final webClient = _createWebClient();
       
-      if (jsonResponse['success'] == true) {
-        final userData = jsonResponse['data'];
-        final token = userData?['token'];
+      try {
+        log('Attempting HTTP request with enhanced client...', name: 'AuthService');
+        final response = await webClient.post(
+          Uri.parse('$_baseUrl${ApiConfig.login}'),
+          headers: requestHeaders,
+          body: jsonEncode(requestBody),
+        ).timeout(Duration(seconds: 30));
         
-        if (token != null) {
-          // Validate token format
-          if (!AuthConfig.validateTokenStructure(token)) {
-            return {
-              'success': false,
-              'message': AuthConfig.invalidTokenError,
-            };
-          }
-          
-          // Extract token payload for validation
-          final tokenPayload = AuthConfig.extractTokenPayload(token);
-          if (tokenPayload == null) {
-            return {
-              'success': false,
-              'message': AuthConfig.invalidTokenError,
-            };
-          }
-          
-          // Store authentication data
-          await _storeAuthData(token, userData);
-          
-          // Reset failed login attempts
-          await _resetFailedAttempts(email);
-          
-          log('User ${userData?['user']?['email']} logged in successfully', name: 'AuthService');
-          
-          return {
-            'success': true,
-            'message': 'Login successful',
-            'data': {
-              'user': userData['user'],
-              'token': token,
-              'token_expires_in': AuthConfig.tokenExpirationSeconds,
-            },
-          };
-        } else {
-          return {
-            'success': false,
-            'message': 'Authentication token not provided by server',
-          };
+        log('HTTP request completed successfully', name: 'AuthService');
+        log('Response status: ${response.statusCode}', name: 'AuthService');
+        log('Response body length: ${response.body.length}', name: 'AuthService');
+        
+        // Handle response
+        final jsonResponse = _handleAuthResponse(response);
+        
+        // Close the client if it's a temporary one
+        if (webClient != _client) {
+          webClient.close();
         }
-      } else {
-        // Handle login failure
-        await _incrementFailedAttempts(email);
         
-        return {
-          'success': false,
-          'message': jsonResponse['message'] ?? AuthConfig.invalidCredentialsError,
-        };
+        return jsonResponse;
+        
+      } catch (e) {
+        log('Primary HTTP request failed: $e', name: 'AuthService');
+        
+        // Fallback: Try with different approach for web
+        if (kIsWeb) {
+          log('Attempting fallback web request method...', name: 'AuthService');
+          
+          try {
+            // Create a new client with different configuration
+            final fallbackClient = http.Client();
+            
+            // Add additional web-specific headers
+            final fallbackHeaders = {
+              ...requestHeaders,
+              'X-Requested-With': 'XMLHttpRequest',
+              'Referer': 'http://abuanplmunflutter.sportsontheweb.net/',
+            };
+            
+            final fallbackResponse = await fallbackClient.post(
+              Uri.parse('$_baseUrl${ApiConfig.login}'),
+              headers: fallbackHeaders,
+              body: jsonEncode(requestBody),
+            ).timeout(Duration(seconds: 30));
+            
+            log('Fallback HTTP request succeeded', name: 'AuthService');
+            
+            final jsonResponse = _handleAuthResponse(fallbackResponse);
+            fallbackClient.close();
+            return jsonResponse;
+            
+          } catch (fallbackError) {
+            log('Fallback HTTP request also failed: $fallbackError', name: 'AuthService');
+            // Continue to final error handling
+          }
+        }
+        
+        // If we reach here, all attempts failed
+        rethrow;
       }
-      
+
     } on TimeoutException catch (e) {
+      log('HTTP request timeout error: $e', name: 'AuthService');
       return {
         'success': false,
         'message': 'Request timeout. Please check your internet connection and try again.',
       };
     } on Exception catch (e) {
-      log('Login error: ${e.toString()}', name: 'AuthService');
+      log('HTTP request exception: ${e.toString()}', name: 'AuthService');
+      log('Exception type: ${e.runtimeType}', name: 'AuthService');
+      log('Exception stack trace: ${StackTrace.current}', name: 'AuthService');
+      
+      // Check if this is a network-related exception
+      if (e.toString().toLowerCase().contains('http') ||
+          e.toString().toLowerCase().contains('network') ||
+          e.toString().toLowerCase().contains('connection') ||
+          e.toString().toLowerCase().contains('fetch')) {
+        return {
+          'success': false,
+          'message': 'Network error: ${e.toString()}',
+        };
+      }
+      
       return {
         'success': false,
-        'message': AuthConfig.networkAuthError,
+        'message': 'Unexpected error: ${e.toString()}',
       };
     }
   }
@@ -388,21 +448,59 @@ class AuthService {
   /// Handle authentication response
   Map<String, dynamic> _handleAuthResponse(http.Response response) {
     try {
+      log('=== HANDLE AUTH RESPONSE DEBUG ===', name: 'AuthService');
+      log('Response status code: ${response.statusCode}', name: 'AuthService');
+      log('Response body: ${response.body}', name: 'AuthService');
+      log('Response body length: ${response.body.length}', name: 'AuthService');
+      
       final responseBody = response.body;
+      
+      // Check for empty response
+      if (responseBody.isEmpty) {
+        log('ERROR: Empty response body received', name: 'AuthService');
+        return {
+          'success': false,
+          'message': 'Server returned empty response',
+        };
+      }
+      
+      // Check for HTML response (common CORS issue)
+      if (responseBody.trim().startsWith('<')) {
+        log('ERROR: HTML response received instead of JSON', name: 'AuthService');
+        log('HTML content preview: ${responseBody.substring(0, responseBody.length > 200 ? 200 : responseBody.length)}', name: 'AuthService');
+        return {
+          'success': false,
+          'message': 'Server returned HTML instead of JSON response',
+        };
+      }
+      
+      log('Attempting to parse JSON...', name: 'AuthService');
       final jsonResponse = jsonDecode(responseBody);
+      log('JSON parsing successful', name: 'AuthService');
+      log('Parsed JSON: $jsonResponse', name: 'AuthService');
       
       if (response.statusCode >= 200 && response.statusCode < 300) {
+        log('Status code is successful (${response.statusCode})', name: 'AuthService');
         return jsonResponse;
       } else {
+        log('Status code indicates error (${response.statusCode})', name: 'AuthService');
         return {
           'success': false,
           'message': jsonResponse['message'] ?? 'Authentication failed',
         };
       }
-    } on FormatException {
+    } on FormatException catch (e) {
+      log('ERROR: JSON parsing failed - FormatException: $e', name: 'AuthService');
+      log('This usually indicates malformed JSON or server error', name: 'AuthService');
       return {
         'success': false,
-        'message': 'Invalid response from server',
+        'message': 'Invalid response from server - Failed to parse JSON response',
+      };
+    } catch (e) {
+      log('ERROR: Unexpected exception in _handleAuthResponse: $e', name: 'AuthService');
+      return {
+        'success': false,
+        'message': 'Unexpected error parsing server response: $e',
       };
     }
   }

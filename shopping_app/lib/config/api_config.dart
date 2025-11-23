@@ -5,7 +5,7 @@ class ApiConfig {
   /// Customer API endpoints
   static const String getProducts = "${baseUrl}get_products.php";
   static const String getCategories = "${baseUrl}get_categories.php";
-  static const String login = "${baseUrl}login.php";
+  static const String login = "login.php"; // Removed baseUrl duplication
   static const String register = "${baseUrl}register.php";
   static const String refreshToken = "${baseUrl}refresh_token.php";
   static const String addToCart = "${baseUrl}add_to_cart.php";
@@ -26,4 +26,14 @@ class ApiConfig {
   static const String updateUser = "${baseUrl}update_user.php";
   static const String deleteUser = "${baseUrl}delete_user.php";
   static const String updateOrder = "${baseUrl}update_order.php";
+  
+  /// Debug method to check API configuration
+  static void debugApiConfig() {
+    print('=== API CONFIG DEBUG ===');
+    print('Base URL: $baseUrl');
+    print('Login endpoint: $login');
+    print('Full login URL: ${baseUrl}$login');
+    print('Register endpoint: $register');
+    print('Full register URL: $register');
+  }
 }

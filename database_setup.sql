@@ -215,7 +215,7 @@ DELIMITER ;
 -- Add views for easier data access
 
 -- View for product inventory status
-CREATE VIEW `product_inventory_view` AS
+CREATE OR REPLACE VIEW `product_inventory_view` AS
 SELECT 
     p.id,
     p.name,
@@ -233,7 +233,7 @@ FROM `flutter2_products` p
 JOIN `flutter2_categories` c ON p.category_id = c.id;
 
 -- View for order summary
-CREATE VIEW `order_summary_view` AS
+CREATE OR REPLACE VIEW `order_summary_view` AS
 SELECT 
     o.id,
     o.user_id,
@@ -250,7 +250,7 @@ LEFT JOIN `flutter2_order_items` oi ON o.id = oi.order_id
 GROUP BY o.id;
 
 -- View for sales analytics
-CREATE VIEW `sales_analytics_view` AS
+CREATE OR REPLACE VIEW `sales_analytics_view` AS
 SELECT 
     DATE(o.created_at) as order_date,
     COUNT(o.id) as order_count,
@@ -285,7 +285,7 @@ CREATE INDEX idx_security_logs_event_time ON `security_logs`(`event_type`, `crea
 CREATE INDEX idx_security_logs_ip_time ON `security_logs`(`ip_address`, `created_at`);
 
 -- Add a view for recent security events
-CREATE VIEW `recent_security_events` AS
+CREATE OR REPLACE VIEW `recent_security_events` AS
 SELECT 
     sl.id,
     sl.event_type,

@@ -14,11 +14,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         header_remove('Vary');
     }
     
-    header('Access-Control-Allow-Origin: *');
+    // Enhanced CORS headers for web browsers
+    $origin = $_SERVER['HTTP_ORIGIN'] ?? '*';
+    
+    // Allow specific origins for web apps
+    $allowedOrigins = [
+        'http://localhost:8080',
+        'http://127.0.0.1:8080',
+        'http://localhost',
+        'http://127.0.0.1',
+        'https://abuanplmunflutter.sportsontheweb.net',
+        'http://abuanplmunflutter.sportsontheweb.net'
+    ];
+    
+    if (in_array($origin, $allowedOrigins)) {
+        header("Access-Control-Allow-Origin: $origin");
+    } else {
+        header('Access-Control-Allow-Origin: *');
+    }
+    
     header('Access-Control-Allow-Methods: POST, OPTIONS');
-    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Origin, Accept, Cache-Control, Pragma');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Origin, Accept, Cache-Control, Pragma, DNT, Sec-Fetch-Mode');
     header('Access-Control-Max-Age: 86400');
     header('Access-Control-Allow-Credentials: true');
+    header('Access-Control-Expose-Headers: Content-Length, Content-Type, Access-Control-Allow-Origin');
     header('Vary: Origin');
     header('Content-Type: application/json');
     http_response_code(200);
@@ -35,12 +54,30 @@ if (function_exists('header_remove')) {
     header_remove('Vary');
 }
 
-// Set CORS headers for actual requests (only if not set by .htaccess)
-header('Access-Control-Allow-Origin: *', false);
+// Enhanced CORS headers for actual requests (only if not set by .htaccess)
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '*';
+
+// Allow specific origins for web apps
+$allowedOrigins = [
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
+    'http://localhost',
+    'http://127.0.0.1',
+    'https://abuanplmunflutter.sportsontheweb.net',
+    'http://abuanplmunflutter.sportsontheweb.net'
+];
+
+if (in_array($origin, $allowedOrigins)) {
+    header("Access-Control-Allow-Origin: $origin", false);
+} else {
+    header('Access-Control-Allow-Origin: *', false);
+}
+
 header('Access-Control-Allow-Methods: POST, OPTIONS', false);
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Origin, Accept, Cache-Control, Pragma', false);
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Origin, Accept, Cache-Control, Pragma, DNT, Sec-Fetch-Mode', false);
 header('Access-Control-Max-Age: 86400', false);
 header('Access-Control-Allow-Credentials: true', false);
+header('Access-Control-Expose-Headers: Content-Length, Content-Type, Access-Control-Allow-Origin', false);
 header('Vary: Origin', false);
 header('Content-Type: application/json');
 

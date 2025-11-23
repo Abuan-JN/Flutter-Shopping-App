@@ -95,13 +95,26 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
     
     try {
+      log('=== AUTH PROVIDER LOGIN DEBUG ===', name: 'AuthProvider');
+      log('Starting login process with email: $email', name: 'AuthProvider');
+      log('AuthService instance: $_authService', name: 'AuthProvider');
+      
       final result = await _authService.login(email, password);
       
+      log('=== AUTH PROVIDER RESULT DEBUG ===', name: 'AuthProvider');
+      log('Login result: $result', name: 'AuthProvider');
+      log('Result success: ${result['success']}', name: 'AuthProvider');
+      log('Result message: ${result['message']}', name: 'AuthProvider');
+      
       if (result['success'] == true) {
+        log('Processing successful login...', name: 'AuthProvider');
         _isUserLoggedIn = true;
         _errorMessage = null;
         _userToken = result['data']?['token'];
         _currentUser = result['data']?['user'];
+        
+        log('User token: $_userToken', name: 'AuthProvider');
+        log('User data: $_currentUser', name: 'AuthProvider');
         
         // Track last activity
         _lastActivityTime = DateTime.now();
@@ -122,10 +135,13 @@ class AuthProvider with ChangeNotifier {
           'data': result['data'],
         };
       } else {
+        log('Processing failed login...', name: 'AuthProvider');
         _errorMessage = result['message'];
         _isUserLoggedIn = false;
         _userToken = null;
         _currentUser = null;
+        
+        log('Error message: $_errorMessage', name: 'AuthProvider');
         
         notifyListeners();
         

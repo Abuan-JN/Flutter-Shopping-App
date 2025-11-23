@@ -14,14 +14,17 @@
     # Allow requests from any origin (adjust as needed for security)
     Header always set Access-Control-Allow-Origin "*"
     
-    # Allow specific headers including Cache-Control
-    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Origin, Accept, Cache-Control, Pragma"
+    # Allow specific headers including Cache-Control and web browser headers
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With, Origin, Accept, Cache-Control, Pragma, DNT, Sec-Fetch-Mode, Sec-Fetch-Dest"
     
     # Allow specific methods
     Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
     
     # Allow credentials (cookies, authorization headers)
     Header always set Access-Control-Allow-Credentials "true"
+    
+    # Expose specific headers to clients
+    Header always set Access-Control-Expose-Headers "Content-Length, Content-Type, Access-Control-Allow-Origin"
     
     # Cache preflight responses for 24 hours
     Header always set Access-Control-Max-Age "86400"
@@ -36,11 +39,11 @@
     
     # Handle preflight requests for all API endpoints
     RewriteCond %{REQUEST_METHOD} ^OPTIONS$
-    RewriteRule ^api/.*$ - [R=200,L]
+    RewriteRule ^.*$ - [R=200,L]
     
     # Ensure proper content type for OPTIONS responses
     RewriteCond %{REQUEST_METHOD} ^OPTIONS$
-    RewriteRule ^api/.*$ - [T=application/json]
+    RewriteRule ^.*$ - [T=application/json]
 </IfModule>
 
 # Security headers

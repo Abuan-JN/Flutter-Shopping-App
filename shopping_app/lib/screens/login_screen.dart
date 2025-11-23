@@ -28,19 +28,44 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formKey.currentState?.validate() == true) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       
+      print('=== LOGIN SCREEN DEBUG ===');
+      print('Form validation passed');
+      print('Email: ${_emailController.text.trim()}');
+      print('Password length: ${_passwordController.text.trim().length}');
+      print('AuthProvider instance: $authProvider');
+      
       try {
-        await authProvider.login(
+        print('Calling authProvider.login()...');
+        final result = await authProvider.login(
           _emailController.text.trim(),
           _passwordController.text.trim(),
         );
         
+        print('=== LOGIN SCREEN RESULT DEBUG ===');
+        print('Login result: $result');
+        print('Result success: ${result['success']}');
+        print('Result message: ${result['message']}');
+        print('Auth provider loading: ${authProvider.isLoading}');
+        print('Auth provider error: ${authProvider.errorMessage}');
+        print('Auth provider logged in: ${authProvider.isUserLoggedIn}');
+        
         if (!authProvider.isLoading && authProvider.errorMessage == null) {
+          print('Navigation condition met - navigating to products');
           // Navigate to products screen on successful login
           Navigator.pushReplacementNamed(context, '/products');
+        } else {
+          print('Navigation condition NOT met');
+          print('Still loading: ${authProvider.isLoading}');
+          print('Error message: ${authProvider.errorMessage}');
         }
       } catch (e) {
+        print('=== LOGIN SCREEN EXCEPTION DEBUG ===');
+        print('Exception caught: $e');
+        print('Exception type: ${e.runtimeType}');
         // Error handling is done in the provider
       }
+    } else {
+      print('Form validation failed');
     }
   }
 

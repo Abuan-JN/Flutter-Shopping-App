@@ -233,55 +233,9 @@ class ApiService {
     }
   }
 
-  /// User login with enhanced CORS support
-  Future<Map<String, dynamic>> login(String email, String password) async {
-    try {
-      CorsHelper.debugCorsIssue(ApiConfig.login, _authHeaders);
-      
-      if (!CorsHelper.validateCorsConfiguration(_authHeaders)) {
-        throw FormatException('Invalid CORS configuration');
-      }
-      
-      // Create a new client with longer timeout for authentication
-      final authClient = http.Client();
-      
-      final response = await authClient.post(
-        Uri.parse(ApiConfig.login),
-        headers: {
-          ..._authHeaders,
-          'Origin': CorsConfig.baseUrl,
-        },
-        body: jsonEncode({
-          'email': email,
-          'password': password,
-        }),
-      );
-      
-      // Log the response status for debugging
-      debugPrint('Login response status: ${response.statusCode}');
-      debugPrint('Login response body: ${response.body}');
-      
-      // Close the client to prevent memory leaks
-      authClient.close();
-      
-      final jsonResponse = await _handleResponse(response);
-      
-      if (jsonResponse['success'] == true) {
-        return {
-          'success': true,
-          'message': jsonResponse['message'] ?? 'Login successful',
-          'data': jsonResponse['data'],
-        };
-      } else {
-        return {
-          'success': false,
-          'message': jsonResponse['message'] ?? 'Login failed',
-        };
-      }
-    } on FormatException {
-      rethrow;
-    }
-  }
+  // NOTE: Login functionality is handled by AuthService
+  // This method has been removed to avoid duplication
+  // Use AuthService.login() for authentication
 
   /// User registration
   Future<Map<String, dynamic>> register({

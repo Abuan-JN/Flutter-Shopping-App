@@ -64,10 +64,36 @@ class CorsConfig {
   
   /// Get full headers for API requests
   static Map<String, String> getFullHeaders({bool includeAuthHeaders = true}) {
-    final headers = {...requiredHeaders};
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'User-Agent': 'Flutter-App/1.0',
+      'Cache-Control': 'no-cache',
+      'Pragma': 'no-cache',
+      'Origin': baseUrl,
+      // Web-specific CORS headers
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With, Origin, Accept, Cache-Control, Pragma, DNT, Sec-Fetch-Mode',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Expose-Headers': 'Content-Length, Content-Type, Access-Control-Allow-Origin',
+      'DNT': '1',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Dest': 'empty',
+    };
+    
     if (includeAuthHeaders) {
       headers.addAll(authHeaders);
     }
+    
+    // Debug logging for CORS issues
+    print('=== CORS CONFIG DEBUG ===');
+    print('Base URL: $baseUrl');
+    print('Required headers: $requiredHeaders');
+    print('Auth headers: $authHeaders');
+    print('Include auth headers: $includeAuthHeaders');
+    print('Final headers: $headers');
+    
     return headers;
   }
 }
