@@ -2,24 +2,24 @@
 -- This script creates the required tables for the Flutter Shopping App
 -- Updated schema with proper customer authentication, product management, and order processing
 
--- Create the database (if it doesn't exist)
-CREATE DATABASE IF NOT EXISTS shopping_app;
-USE shopping_app;
+-- Use the database (create it if it doesn't exist)
+CREATE DATABASE IF NOT EXISTS `shopping_app`;
+USE `shopping_app`;
 
 -- Table structure for table `flutter2_users` (customer and admin users)
 CREATE TABLE IF NOT EXISTS `flutter2_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `address` text,
-  `password` varchar(255) NOT NULL,
-  `role` enum('customer','admin') NOT NULL DEFAULT 'customer',
-  `is_active` tinyint(1) NOT NULL DEFAULT 1,
-  `email_verified_at` timestamp NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `phone` VARCHAR(20) DEFAULT NULL,
+  `address` TEXT,
+  `password` VARCHAR(255) NOT NULL,
+  `role` ENUM('customer','admin') NOT NULL DEFAULT 'customer',
+  `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+  `email_verified_at` TIMESTAMP NULL DEFAULT NULL,
+  `remember_token` VARCHAR(100) DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `role` (`role`),
@@ -28,13 +28,13 @@ CREATE TABLE IF NOT EXISTS `flutter2_users` (
 
 -- Table structure for table `flutter2_categories`
 CREATE TABLE IF NOT EXISTS `flutter2_categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `description` text,
-  `image_url` varchar(500) DEFAULT NULL,
-  `is_active` tinyint(1) NOT NULL DEFAULT 1,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `description` TEXT,
+  `image_url` VARCHAR(500) DEFAULT NULL,
+  `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `is_active` (`is_active`)
@@ -42,16 +42,16 @@ CREATE TABLE IF NOT EXISTS `flutter2_categories` (
 
 -- Table structure for table `flutter2_products`
 CREATE TABLE IF NOT EXISTS `flutter2_products` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) NOT NULL,
-  `description` text,
-  `price` decimal(10,2) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `image` varchar(500) DEFAULT NULL,
-  `stock` int(11) NOT NULL DEFAULT 0,
-  `is_active` tinyint(1) NOT NULL DEFAULT 1,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(200) NOT NULL,
+  `description` TEXT,
+  `price` DECIMAL(10,2) NOT NULL,
+  `category_id` INT NOT NULL,
+  `image` VARCHAR(500) DEFAULT NULL,
+  `stock` INT NOT NULL DEFAULT 0,
+  `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   KEY `is_active` (`is_active`),
@@ -61,13 +61,13 @@ CREATE TABLE IF NOT EXISTS `flutter2_products` (
 
 -- Table structure for table `flutter2_cart`
 CREATE TABLE IF NOT EXISTS `flutter2_cart` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `session_id` varchar(255) DEFAULT NULL,
-  `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL DEFAULT 1,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT DEFAULT NULL,
+  `session_id` VARCHAR(255) DEFAULT NULL,
+  `product_id` INT NOT NULL,
+  `quantity` INT NOT NULL DEFAULT 1,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_cart_item_user` (`user_id`,`product_id`),
   UNIQUE KEY `unique_cart_item_session` (`session_id`,`product_id`),
@@ -79,19 +79,19 @@ CREATE TABLE IF NOT EXISTS `flutter2_cart` (
 
 -- Table structure for table `flutter2_orders`
 CREATE TABLE IF NOT EXISTS `flutter2_orders` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `customer_name` varchar(100) NOT NULL,
-  `customer_email` varchar(100) NOT NULL,
-  `customer_phone` varchar(20) DEFAULT NULL,
-  `customer_address` text NOT NULL,
-  `total_amount` decimal(10,2) NOT NULL,
-  `status` varchar(50) NOT NULL DEFAULT 'pending',
-  `payment_method` varchar(50) DEFAULT NULL,
-  `payment_status` varchar(50) DEFAULT 'pending',
-  `notes` text DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT DEFAULT NULL,
+  `customer_name` VARCHAR(100) NOT NULL,
+  `customer_email` VARCHAR(100) NOT NULL,
+  `customer_phone` VARCHAR(20) DEFAULT NULL,
+  `customer_address` TEXT NOT NULL,
+  `total_amount` DECIMAL(10,2) NOT NULL,
+  `status` VARCHAR(50) NOT NULL DEFAULT 'pending',
+  `payment_method` VARCHAR(50) DEFAULT NULL,
+  `payment_status` VARCHAR(50) DEFAULT 'pending',
+  `notes` TEXT DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `status` (`status`),
@@ -101,14 +101,14 @@ CREATE TABLE IF NOT EXISTS `flutter2_orders` (
 
 -- Table structure for table `flutter2_order_items`
 CREATE TABLE IF NOT EXISTS `flutter2_order_items` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `product_name` varchar(200) NOT NULL,
-  `product_image` varchar(500) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `order_id` INT NOT NULL,
+  `product_id` INT NOT NULL,
+  `quantity` INT NOT NULL,
+  `price` DECIMAL(10,2) NOT NULL,
+  `product_name` VARCHAR(200) NOT NULL,
+  `product_image` VARCHAR(500) DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`),
   KEY `product_id` (`product_id`),
@@ -261,3 +261,48 @@ FROM `flutter2_orders` o
 WHERE o.status NOT IN ('cancelled')
 GROUP BY DATE(o.created_at)
 ORDER BY order_date DESC;
+
+-- Create security logs table for admin dashboard activity tracking
+CREATE TABLE IF NOT EXISTS `security_logs` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `event_type` VARCHAR(50) NOT NULL,
+  `description` TEXT,
+  `user_id` INT DEFAULT NULL,
+  `ip_address` VARCHAR(45) DEFAULT NULL,
+  `user_agent` TEXT,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_event_type` (`event_type`),
+  KEY `idx_created_at` (`created_at`),
+  KEY `idx_ip_address` (`ip_address`),
+  CONSTRAINT `security_logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `flutter2_users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Create indexes for better query performance on security logs
+CREATE INDEX idx_security_logs_user_time ON `security_logs`(`user_id`, `created_at`);
+CREATE INDEX idx_security_logs_event_time ON `security_logs`(`event_type`, `created_at`);
+CREATE INDEX idx_security_logs_ip_time ON `security_logs`(`ip_address`, `created_at`);
+
+-- Add a view for recent security events
+CREATE VIEW `recent_security_events` AS
+SELECT 
+    sl.id,
+    sl.event_type,
+    sl.description,
+    sl.user_id,
+    u.name as user_name,
+    u.email as user_email,
+    sl.ip_address,
+    sl.created_at,
+    CASE 
+        WHEN sl.event_type IN ('login_failed', 'login_attempt') THEN 'warning'
+        WHEN sl.event_type IN ('login_success', 'logout') THEN 'info'
+        WHEN sl.event_type IN ('password_change', 'profile_update') THEN 'success'
+        WHEN sl.event_type IN ('suspicious_activity', 'rate_limited') THEN 'danger'
+        ELSE 'info'
+    END as event_level
+FROM `security_logs` sl
+LEFT JOIN `flutter2_users` u ON sl.user_id = u.id
+ORDER BY sl.created_at DESC
+LIMIT 100;
